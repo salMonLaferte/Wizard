@@ -1,6 +1,5 @@
 package com.DavidDiaz.Wizard;
 
-import java.util.IllegalFormatFlagsException;
 
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -29,9 +28,26 @@ public class App extends Application {
         mainWindow.setTitle("Wizard by David Diaz");
         mainWindow.setScene(scene);
         mainWindow.getIcons().add(icon);
+        /*Stack<Card> deck = new Stack<>();
         for(int i=0; i< 13; i++){
-            drawCard(new RegularCard(1, i), root,  i*100, 0);
+            deck.push( new RegularCard(1, i) );
         }
+        int i=0;
+        while(!deck.isEmpty()){
+            drawCard(deck.top(), root, i*100, 0);
+            deck.pop();
+            i++;
+        }*/
+
+        Game game = new Game(3);
+        GameManager.currentGame = game;
+        Round r = new Round(2);
+        GameManager.currentRound = r;
+
+        for(int i=0; i< GameManager.currentGame.numberOfPlayers; i++){
+            
+        }
+
         mainWindow.show();
     }
 

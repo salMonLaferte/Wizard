@@ -1,10 +1,14 @@
 package com.DavidDiaz.Wizard;
 
-public class DumbCard extends Card{
+class DumbCard extends Card{
 
     @Override
     public String getImage() {
         return "resources/cardDumb.png";
     }
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof DumbCard;
+    }
 }

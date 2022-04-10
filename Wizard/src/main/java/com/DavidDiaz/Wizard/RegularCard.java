@@ -2,8 +2,8 @@ package com.DavidDiaz.Wizard;
 
 public class RegularCard extends Card {
     
-    int figure;
-    int number;
+    protected int figure;
+    protected int number;
 
     public RegularCard(int figure, int number){
         this.figure = figure;
@@ -14,5 +14,14 @@ public class RegularCard extends Card {
     public String getImage() {
         String name = "card" + figure + ".png";
         return "resources/" + name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof RegularCard){
+            RegularCard other = (RegularCard)obj;
+            return this.figure == other.figure && this.number == other.number;
+        }
+        return false;
     }
 }
