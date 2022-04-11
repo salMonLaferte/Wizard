@@ -3,12 +3,14 @@ package com.DavidDiaz.Wizard;
 
 
 import java.util.Iterator;
+import java.util.Optional;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -55,7 +57,7 @@ public class App extends Application {
         GameManager.currentGame = game;
         Round r = new Round(10);
         GameManager.currentRound = r;
-        GameManager.currentRound.OnRoundStart();
+        GameManager.currentRound.roundStart();
         //Draw
         drawEverything(root);
         mainWindow.show();
@@ -122,6 +124,17 @@ public class App extends Application {
                 k++;
             }
         }
+    }
+
+    public static String askForUserInput(String question,String formatDescription, String defaultValue){
+        TextInputDialog textInputDialog = new TextInputDialog(defaultValue);
+        textInputDialog.setHeaderText(question);
+        textInputDialog.setContentText(formatDescription);
+        Optional<String> result = textInputDialog.showAndWait();
+        if(result.isPresent()){
+            return result.get();
+        }
+        else return "";
     }
     
 }

@@ -4,6 +4,7 @@ class Round {
     int paloTriunfo;
     int shufflePlayer;
     int numberOfRound;
+    int currentTrick;
     Stack<Card> deck;
 
     public Round(int number){
@@ -11,12 +12,13 @@ class Round {
         numberOfRound = number;
     }
 
-    public void OnRoundStart(){
-        shufflePlayer = 1;
+    //Round Initialization
+    public void roundStart(){
+        shufflePlayer = (GameManager.lastPlayerWhoSuffled +1) % GameManager.currentGame.numberOfPlayers;
         shuffleDeck();
         distributeCards();
-        setPaloTriunfo();
         setGuesses();
+        setPaloTriunfo();
     }
 
     /**
@@ -59,7 +61,9 @@ class Round {
     }
 
     void setGuesses(){
-
+        for(int i=0; i<GameManager.currentGame.numberOfPlayers; i++){
+            GameManager.currentGame.players[i].setGuess();
+        }
     }
 
 }

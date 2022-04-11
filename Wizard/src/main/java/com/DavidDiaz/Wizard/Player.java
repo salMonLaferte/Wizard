@@ -1,7 +1,5 @@
 package com.DavidDiaz.Wizard;
 
-import javafx.event.ActionEvent;
-
 class Player {
     protected String name;
     protected int score;
@@ -15,15 +13,22 @@ class Player {
         hand = new SimpleLinkedList<>();
     }
     
-    public void playCard(ActionEvent event){
-        
+    /**
+     * Set prediction for current player
+     */
+    public void setGuess(){
+        int a = -1;
+        String question = "Introduce una prediccion para:  " + name;
+        String format = "Introduce un numero del " + 0 + " al " + GameManager.currentGame.numberOfPlayers;
+        String defaultValue = "1";
+        while( a < 0 || a > GameManager.currentRound.numberOfRound){
+            String input = App.askForUserInput(question, format, defaultValue);
+            a = Integer.parseInt(input);
+            if( a < 0 || a > GameManager.currentRound.numberOfRound){
+                System.out.println("Invalid Guess for " + name);
+            }
+        }
+        currentGuess = a;
     }
 
-    public boolean setGuess(int currentGuess){
-        return false;
-    }
-
-    public String askForInput(String Input){
-        return "";
-    }
 }
