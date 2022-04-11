@@ -39,6 +39,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        //Set Window
         Group root = new Group();
         Scene scene = new Scene(root, Color.BLACK);
         Stage mainWindow = new Stage();
@@ -46,64 +47,78 @@ public class App extends Application {
         mainWindow.setTitle("Wizard by David Diaz");
         mainWindow.setScene(scene);
         mainWindow.getIcons().add(icon);
-        /*Stack<Card> deck = new Stack<>();
-        for(int i=0; i< 13; i++){
-            deck.push( new RegularCard(1, i) );
-        }
-        int i=0;
-        while(!deck.isEmpty()){
-            drawCard(deck.top(), root, i*100, 0);
-            deck.pop();
-            i++;
-        }*/
+        mainWindow.setWidth(1600);
+        mainWindow.setHeight(900);
 
+        //Set Game
         Game game = new Game(6);
         GameManager.currentGame = game;
-        Round r = new Round(6);
+        Round r = new Round(10);
         GameManager.currentRound = r;
         GameManager.currentRound.OnRoundStart();
-        
-
-        /*for(int i=0; i< GameManager.currentGame.numberOfPlayers; i++){
-
-        }*/
+        //Draw
         drawEverything(root);
         mainWindow.show();
     }
 
-    
-    public void drawCard(Card card, Group root, int x, int y){
+    /**
+     * Draw a card in the position x, y and add it to the specified root
+     * @param card
+     * @param root
+     * @param x
+     * @param y
+     */
+    public void drawCard(Card card, Group root, float x, float y, float scale){
         Group imgGroup = new Group();
         Image img = new Image(card.getImage());
         ImageView imgView = new ImageView(img);
         imgGroup.getChildren().add(imgView);
+        //Set the number of the card if is regular or set to B or W if is a special card
+        String number;
         if(card instanceof DumbCard || card instanceof WizardCard){
-            return;
+            if(card instanceof DumbCard)
+                number = "B";
+            else
+                number = "W";
+        }else{
+            RegularCard c = (RegularCard)card;
+            number = "" + c.number;
         }
+        //Set a rectangle to indicate number of card
         Rectangle r = new Rectangle(40, 40, Color.BLACK);
         imgGroup.getChildren().add(r);
         r.setX(img.getWidth() -40);
         r.setY(img.getHeight()-40);
-        RegularCard c = (RegularCard)card;
-        String number = "" + c.number;
+        
+        //Set text with the number of the card
         Text text = new Text( number );
         text.setFill(Color.WHITE);
         imgGroup.getChildren().add(text);
         text.setX(img.getWidth() -40);
         text.setY(img.getHeight()-5 );
         text.setFont(Font.font(40));
+        
+        //Translate the card to the position and add it to the root
         imgGroup.setTranslateX(x);
         imgGroup.setTranslateY(y);
         root.getChildren().add(imgGroup);
+
+        imgGroup.setScaleX(scale);
+        imgGroup.setScaleY(scale);
     }
 
+    /**
+     * Draws everything in the window
+     * @param root
+     */
     public void drawEverything(Group root){
+
         for(int i=0; i<GameManager.currentGame.numberOfPlayers; i++){
             Iterator<Card> it = GameManager.currentGame.players[i].hand.begin();
             int k=0;
             System.out.println(GameManager.currentGame.players[i].hand.getSize());
             while(it.hasNext()){
-                drawCard(it.next(), root, k*100, i*150);
+                drawCard(it.next(), root, k*(100*.7f), i*(150*.7f), .7f);
                 k++;
             }
         }

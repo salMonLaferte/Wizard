@@ -43,6 +43,12 @@ class Round {
                 deck.push(c);
             }
         }
+        for(int i=0; i<4; i++){
+            deck.push(new WizardCard());
+        }
+        for(int i=0; i<4; i++){
+            deck.push(new DumbCard());
+        }
     }
 
     /**
