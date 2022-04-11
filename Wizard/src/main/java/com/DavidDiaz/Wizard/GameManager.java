@@ -8,20 +8,27 @@ class GameManager {
 
     static void StartAGame(int numberOfPlayers){
         currentGame = new Game(numberOfPlayers);
-        currentRound = new Round(0);
+        currentRound = new Round(1);
+        cardsPlayed = new SimpleLinkedList<Card>();
         currentRound.roundStart();
     }
 
-    static void playCard(Player p, Card card){
+    static void StartNextRound(int numberOfRound){
+        currentRound = new Round(numberOfRound);
+        currentRound.roundStart();
+    }
+
+    static boolean validateCard(Player p, Card card){
         cardsPlayed.add(card);
         if(cardsPlayed.getSize() == currentGame.numberOfPlayers){
             getTrickWinner();
         }
+        return true;
     }
 
-    static void getTrickWinner(){
+    static int getTrickWinner(){
         cardsPlayed.clear();
-
+        return 1;
     }
 
 }

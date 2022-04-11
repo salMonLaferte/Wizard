@@ -6,14 +6,12 @@ import java.util.Iterator;
 import java.util.Optional;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -23,6 +21,12 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
+    static Scene scene;
+    static Stage mainWindow;
+    static int cardWidth = 100;
+    static int cardHeight = 150;
+    static float  cardScale =.7f;
+    
     public static void main(String args[]){
         launch();
     }
@@ -43,24 +47,22 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         //Set Window
         Group root = new Group();
-        Scene scene = new Scene(root, Color.BLACK);
-        Stage mainWindow = new Stage();
+        scene = new Scene(root, Color.BLACK);
+        mainWindow = new Stage();
         Image icon = new Image("resources/boo.png");
         mainWindow.setTitle("Wizard by David Diaz");
         mainWindow.setScene(scene);
         mainWindow.getIcons().add(icon);
         mainWindow.setWidth(1600);
         mainWindow.setHeight(900);
+        mainWindow.show();
 
         //Set Game
-        Game game = new Game(6);
-        GameManager.currentGame = game;
-        Round r = new Round(10);
-        GameManager.currentRound = r;
-        GameManager.currentRound.roundStart();
+        GameManager.StartAGame(6);
+
         //Draw
-        drawEverything(root);
-        mainWindow.show();
+        drawEverything();
+
     }
 
     /**
@@ -70,7 +72,7 @@ public class App extends Application {
      * @param x
      * @param y
      */
-    public void drawCard(Card card, Group root, float x, float y, float scale){
+    public static void drawCard(Card card, Group root,  float x, float y, float scale){
         Group imgGroup = new Group();
         Image img = new Image(card.getImage());
         ImageView imgView = new ImageView(img);
@@ -113,19 +115,37 @@ public class App extends Application {
      * Draws everything in the window
      * @param root
      */
-    public void drawEverything(Group root){
-
+    public static void drawEverything(){
+        Group root = new Group();
         for(int i=0; i<GameManager.currentGame.numberOfPlayers; i++){
             Iterator<Card> it = GameManager.currentGame.players[i].hand.begin();
             int k=0;
+            Text text = new Text("Cartas de " + GameManager.currentGame.players[i].name);
+            root.getChildren().add(text);
+            text.setTranslateX(10);
+            text.setTranslateY(50 + i*(cardHeight*cardScale));
+            text.setFont(Font.font(15));
+            text.setFill(Color.WHITE);
             System.out.println(GameManager.currentGame.players[i].hand.getSize());
             while(it.hasNext()){
-                drawCard(it.next(), root, k*(100*.7f), i*(150*.7f), .7f);
+                drawCard(it.next(),root, 150 + k*(cardWidth*cardScale), i*(cardHeight*cardScale), cardScale);
                 k++;
             }
         }
+        
+        scene = new Scene(root, Color.BLACK);
+        mainWindow.setScene(scene);
+        mainWindow.show();
+        
     }
 
+    /**
+     * Ask for user input
+     * @param question
+     * @param formatDescription
+     * @param defaultValue
+     * @return
+     */
     public static String askForUserInput(String question,String formatDescription, String defaultValue){
         TextInputDialog textInputDialog = new TextInputDialog(defaultValue);
         textInputDialog.setHeaderText(question);
@@ -135,6 +155,19 @@ public class App extends Application {
             return result.get();
         }
         else return "";
+    }
+
+    /**
+     * Show relevant info to the user
+     * @param title
+     * @param message
+     */
+    public static void showMessageToUser(String title, String message){
+        Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
     
 }

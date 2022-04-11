@@ -19,7 +19,7 @@ class Player {
     public void setGuess(){
         int a = -1;
         String question = "Introduce una prediccion para:  " + name;
-        String format = "Introduce un numero del " + 0 + " al " + GameManager.currentGame.numberOfPlayers;
+        String format = "Introduce un numero del " + 0 + " al " + GameManager.currentRound.numberOfRound;
         String defaultValue = "1";
         while( a < 0 || a > GameManager.currentRound.numberOfRound){
             String input = App.askForUserInput(question, format, defaultValue);

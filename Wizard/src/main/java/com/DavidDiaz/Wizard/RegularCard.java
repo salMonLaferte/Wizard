@@ -1,6 +1,6 @@
 package com.DavidDiaz.Wizard;
 
-public class RegularCard extends Card {
+class RegularCard extends Card {
     
     protected int figure;
     protected int number;
@@ -24,4 +24,27 @@ public class RegularCard extends Card {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        String result = getFigureStr();
+        result += number;
+        return result;
+    }
+
+    @Override
+    public String getFigureStr() {        
+        switch(figure){
+            case 1:
+            return "P";
+            case 2:
+            return "T";
+            case 3:
+            return "M";
+            case 4:
+            return "B";
+        }
+        return "";
+    }
+    
 }

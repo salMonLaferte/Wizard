@@ -11,4 +11,16 @@ class DumbCard extends Card{
     public boolean equals(Object obj) {
         return obj instanceof DumbCard;
     }
+
+    @Override
+    public String toString() {
+        return "B";
+    }
+
+    @Override
+    public String getFigureStr() {
+        return "B";
+    }
+
+    
 }

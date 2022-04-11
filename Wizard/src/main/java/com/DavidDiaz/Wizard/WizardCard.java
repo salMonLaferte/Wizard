@@ -11,5 +11,15 @@ class WizardCard extends Card{
     public boolean equals(Object obj) {
         return obj instanceof WizardCard;
     }
+
+    @Override
+    public String toString() {
+        return "W";
+    }
+
+    @Override
+    public String getFigureStr() {
+        return "W";
+    }
     
 }

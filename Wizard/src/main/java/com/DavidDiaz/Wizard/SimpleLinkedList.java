@@ -13,6 +13,7 @@ public class SimpleLinkedList<T> {
         }
     };
 
+    
     public class IteratorLinkedList implements Iterator<T>{
         Node next;
 
@@ -119,6 +120,9 @@ public class SimpleLinkedList<T> {
         size = 0;
     }
 
+    /**Returns an iterator pointing to the head of the list
+     * 
+     */
     public Iterator<T> begin(){
         Iterator<T> it = new IteratorLinkedList();
         return it;
