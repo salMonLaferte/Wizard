@@ -1,5 +1,7 @@
 package com.DavidDiaz.Wizard;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class SimpleLinkedList<T> {
     protected class Node{
@@ -10,6 +12,30 @@ public class SimpleLinkedList<T> {
             this.next = null;
         }
     };
+
+    public class IteratorLinkedList implements Iterator<T>{
+        Node next;
+
+        public IteratorLinkedList(){
+            next = head;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return next != null;
+        }
+
+        @Override
+        public T next() {
+            if(!hasNext()){
+                throw new NoSuchElementException();
+            }
+            T n = next.data; 
+            next = next.next; 
+            return n;
+        }
+
+    }
 
     protected Node head;
     protected Node tail;
@@ -47,6 +73,9 @@ public class SimpleLinkedList<T> {
         Node node = new Node(data);
         if(size == 0){
             head = node;
+            tail = node;
+            size++;
+            return;
         }
         tail.next = node;
         tail = node;
@@ -81,9 +110,17 @@ public class SimpleLinkedList<T> {
         return false;   
     }
 
+    /**
+     * Clear list
+     */
     public void clear(){
         head = null;
         tail = null;
         size = 0;
+    }
+
+    public Iterator<T> begin(){
+        Iterator<T> it = new IteratorLinkedList();
+        return it;
     }
 }

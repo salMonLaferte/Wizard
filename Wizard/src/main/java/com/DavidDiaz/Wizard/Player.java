@@ -1,11 +1,13 @@
 package com.DavidDiaz.Wizard;
 
+import javafx.event.ActionEvent;
+
 class Player {
     protected String name;
     protected int score;
     protected int currentGuess;
     protected SimpleLinkedList<Card> hand;
-
+    
     public Player( String name ){
         this.name = name;
         score = 0;
@@ -13,7 +15,7 @@ class Player {
         hand = new SimpleLinkedList<>();
     }
     
-    public void playCard(int figure, int number){
+    public void playCard(ActionEvent event){
         
     }
 

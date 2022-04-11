@@ -3,28 +3,29 @@ package com.DavidDiaz.Wizard;
 class Round {
     int paloTriunfo;
     int shufflePlayer;
-    int number;
+    int numberOfRound;
     Stack<Card> deck;
 
     public Round(int number){
         deck = new Stack<Card>();
-        this.number = number;
-        shuffleDeck();
+        numberOfRound = number;
     }
 
     public void OnRoundStart(){
         shufflePlayer = 1;
+        shuffleDeck();
         distributeCards();
         setPaloTriunfo();
+        setGuesses();
     }
 
     /**
      * Distribute Cards for the players
      */
     void distributeCards(){
-        for(int j=1; j<= GameManager.currentGame.numberOfPlayers; j++){
+        for(int j=0; j< GameManager.currentGame.numberOfPlayers; j++){
             GameManager.currentGame.players[j].hand.clear();
-            for(int i=0; i<number; i++){
+            for(int i=0; i<numberOfRound; i++){
                 Card c = deck.top();
                 deck.pop();
                 GameManager.currentGame.players[j].hand.add(c);

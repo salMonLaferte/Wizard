@@ -1,11 +1,17 @@
 package com.DavidDiaz.Wizard;
 
 
+
+import java.util.Iterator;
+
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -14,10 +20,22 @@ import javafx.stage.Stage;
 
 
 public class App extends Application {
+
     public static void main(String args[]){
         launch();
-        System.out.println("Hello world");
     }
+
+    /*EventHandler clickHandler = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            Object source = event.getSource();
+            if(source instanceof ImageView){
+                ImageView imgview = (ImageView)source;
+                Parent n = imgview.getParent();
+            }
+        }
+        
+    };*/
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -39,15 +57,17 @@ public class App extends Application {
             i++;
         }*/
 
-        Game game = new Game(3);
+        Game game = new Game(6);
         GameManager.currentGame = game;
-        Round r = new Round(2);
+        Round r = new Round(6);
         GameManager.currentRound = r;
+        GameManager.currentRound.OnRoundStart();
+        
 
-        for(int i=0; i< GameManager.currentGame.numberOfPlayers; i++){
-            
-        }
+        /*for(int i=0; i< GameManager.currentGame.numberOfPlayers; i++){
 
+        }*/
+        drawEverything(root);
         mainWindow.show();
     }
 
@@ -75,6 +95,18 @@ public class App extends Application {
         imgGroup.setTranslateX(x);
         imgGroup.setTranslateY(y);
         root.getChildren().add(imgGroup);
+    }
+
+    public void drawEverything(Group root){
+        for(int i=0; i<GameManager.currentGame.numberOfPlayers; i++){
+            Iterator<Card> it = GameManager.currentGame.players[i].hand.begin();
+            int k=0;
+            System.out.println(GameManager.currentGame.players[i].hand.getSize());
+            while(it.hasNext()){
+                drawCard(it.next(), root, k*100, i*150);
+                k++;
+            }
+        }
     }
     
 }
