@@ -14,12 +14,12 @@ class DumbCard extends Card{
 
     @Override
     public String toString() {
-        return "B";
+        return "S";
     }
 
     @Override
     public String getFigureStr() {
-        return "B";
+        return "S";
     }
 
     

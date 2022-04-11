@@ -2,7 +2,7 @@ package com.DavidDiaz.Wizard;
 
 class Round {
     int paloTriunfo;
-    int paloLider;
+    int leaderFigure;
     int shufflePlayer;
     int numberOfRound;
     int currentTrick;
@@ -22,7 +22,7 @@ class Round {
         distributeCards();
         setGuesses();
         setPaloTriunfo();
-        paloLider = 0;
+        leaderFigure = 0;
         currentTrick = 1;
         App.drawEverything();
         nextTrick();
@@ -93,9 +93,13 @@ class Round {
 
         //Ask every player to play a valid card
         for(int i=0 ; i<numberOfPlayers; i++){
-            String message = "Es turno del jugador " + GameManager.currentGame.players[(starterPlayer + i) % numberOfPlayers].name;
-            String cartaAjugar = App.askForUserInput(message, format, defaultValue );
-
+            Player currentPlayer = GameManager.currentGame.players[(starterPlayer + i) % numberOfPlayers];
+            String message = "Es turno del jugador " + currentPlayer.name;            
+            String playedCard = App.askForUserInput(message, format, defaultValue );
+            while( !currentPlayer.validateCard(playedCard, leaderFigure)){
+                App.showMessageToUser("Error", "La carta que introdujiste no es válida");
+                playedCard = App.askForUserInput(message, format, defaultValue );
+            }
         }
         
         if(currentTrick == numberOfRound){

@@ -18,14 +18,6 @@ class GameManager {
         currentRound.roundStart();
     }
 
-    static boolean validateCard(Player p, Card card){
-        cardsPlayed.add(card);
-        if(cardsPlayed.getSize() == currentGame.numberOfPlayers){
-            getTrickWinner();
-        }
-        return true;
-    }
-
     static int getTrickWinner(){
         cardsPlayed.clear();
         return 1;

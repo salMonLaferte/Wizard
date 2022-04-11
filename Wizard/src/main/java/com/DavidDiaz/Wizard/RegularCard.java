@@ -46,5 +46,32 @@ class RegularCard extends Card {
         }
         return "";
     }
-    
+
+    public static int getFigureNumber(String s){
+        switch(s){
+            case "P":
+            return 1;
+            case "T":
+            return 2;
+            case "M":
+            return 3;
+            case "B":
+            return 4;
+        }
+        return 0;
+    }
+
+    public static String getFigureStr(int f) {        
+        switch(f){
+            case 1:
+            return "P";
+            case 2:
+            return "T";
+            case 3:
+            return "M";
+            case 4:
+            return "B";
+        }
+        return "";
+    }
 }

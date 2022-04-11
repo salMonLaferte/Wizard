@@ -13,7 +13,7 @@ public class SimpleLinkedList<T> {
         }
     };
 
-    
+
     public class IteratorLinkedList implements Iterator<T>{
         Node next;
 
@@ -126,5 +126,20 @@ public class SimpleLinkedList<T> {
     public Iterator<T> begin(){
         Iterator<T> it = new IteratorLinkedList();
         return it;
+    }
+
+    /**
+     * Returns true if list contains data
+     */
+    public boolean contains(T data){
+        if(size == 0)
+            return false;
+        Node current = head;
+        while(current != null){
+            if(current.data.equals(data)){
+                return true;
+            }
+        }
+        return false;
     }
 }
