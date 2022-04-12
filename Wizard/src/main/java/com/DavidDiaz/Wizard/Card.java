@@ -23,17 +23,18 @@ abstract class Card {
      * @return
      */
     public static Card StrToCard(String s){
+        
         if(s.length() == 0)
             return null;
         String figure = s.substring(0, 1);
-        if( figure != "T" && figure != "P" && figure != "M" && figure != "B" && figure != "W" && figure != "S"){
+        if( !( figure.equals("T") || figure.equals("P") || figure.equals("M") || figure.equals("B") || figure.equals("W") || figure.equals( "S") ) ){
             return null;
         }
         if(s.length() == 1){
-            if(figure == "W"){
+            if(figure.equals( "W" ) ){
                 return new WizardCard();
             }
-            if(figure == "S"){
+            if(figure.equals( "S") ){
                 return new DumbCard();
             }
             return null;

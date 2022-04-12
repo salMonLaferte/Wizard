@@ -139,6 +139,7 @@ public class SimpleLinkedList<T> {
             if(current.data.equals(data)){
                 return true;
             }
+            current = current.next;
         }
         return false;
     }

@@ -39,12 +39,17 @@ class Player {
     public  boolean validateCard( String cardStr, int leaderFigure){
         //Validates that cardStr is a valid card
         Card c = Card.StrToCard(cardStr);
-        if( c == null )
+        if( c == null ){
+            App.showMessageToUser("No", "Formato erroneo");
             return false;
-
+        }
+            
         //Validates that player has the card in his hand
-        if(!hand.contains(c))
+        if(!hand.contains(c)){
+            App.showMessageToUser("No", "El jugador no tiene esa carta en su mano");
             return false;
+        }
+           
         
         //if leaderFigure is invalid(no leader figure yet) return true
         if(leaderFigure<= 0 || leaderFigure >4)
@@ -52,7 +57,8 @@ class Player {
         
         //If player has a card of the leaderFigure it hast to play one of those cards
         String leaderFigStr = RegularCard.getFigureStr(leaderFigure);
-        if(c.getFigureStr() != leaderFigStr && handContainsFigure(leaderFigStr)){
+        if( !c.getFigureStr().equals(leaderFigStr) && handContainsFigure(leaderFigStr)){
+            App.showMessageToUser("No", "El jugador tiene una carta del palo lider y debe jugarlo");
             return false;
         }
 
@@ -68,7 +74,7 @@ class Player {
         Iterator<Card> it = hand.begin();
         while(it.hasNext()){
             Card c = it.next();
-            if(c.getFigureStr() == figure){
+            if(c.getFigureStr().equals(figure)){
                 return true;
             }
         }
