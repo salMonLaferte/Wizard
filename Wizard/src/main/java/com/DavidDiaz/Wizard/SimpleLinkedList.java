@@ -143,4 +143,30 @@ public class SimpleLinkedList<T> {
         }
         return false;
     }
+
+    
+    public T getAndDeleteAtIndex(int index){
+        if(index < 0 || index >= size )
+            return null;
+        Node previous = null;
+        Node current = head;
+        int count = 0 ;
+        //Get current to the index position and previous to the node after the index position
+        while(count < index){
+            count++;
+            previous = current;
+            current = current.next;
+        }
+        //Delete the node at index position from the list
+        if(previous != null)
+            previous.next = current.next;
+
+        //Update head, tail and size of the list and return the data
+        if(index == 0)
+            head = current.next;
+        if(index == size -1)
+            tail = current;
+        size--;
+        return current.data;
+    }
 }

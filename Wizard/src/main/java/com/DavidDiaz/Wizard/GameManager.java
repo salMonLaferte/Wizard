@@ -20,6 +20,7 @@ class GameManager {
 
     static int getTrickWinner(){
         cardsPlayed.clear();
+        App.drawEverything();
         return 1;
     }
 

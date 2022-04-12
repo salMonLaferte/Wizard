@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -115,41 +116,53 @@ public class App extends Application {
      * Draws everything in the window
      */
     public static void drawEverything(){
-        Group playersData = new Group();
+        
+        Group root = new Group();
+
+        //Draw players data
         for(int i=0; i<GameManager.currentGame.numberOfPlayers; i++){
             Iterator<Card> it = GameManager.currentGame.players[i].hand.begin();
             int k=0;
+            //Draw playe info
             Text text = new Text("Cartas de " + GameManager.currentGame.players[i].name);
-            playersData.getChildren().add(text);
+            root.getChildren().add(text);
             text.setTranslateX(10);
             text.setTranslateY(50 + i*(cardHeight*cardScale));
             text.setFont(Font.font(15));
             text.setFill(Color.WHITE);
-            System.out.println(GameManager.currentGame.players[i].hand.getSize());
+            
+            //Draw player cards
             while(it.hasNext()){
-                drawCard(it.next(),playersData, 150 + k*(cardWidth*cardScale), i*(cardHeight*cardScale), cardScale);
+                drawCard(it.next(),root, 150 + k*(cardWidth*cardScale), i*(cardHeight*cardScale), cardScale);
                 k++;
             }
         }
 
+        //Draw playedCards
         Group playedCards = new Group();
         Iterator<MyPair<Player, Card>> it = GameManager.cardsPlayed.begin();
         int k=0;
+        int separation = 30;
         while(it.hasNext()){
+            //Draw who played the card
             MyPair<Player,Card> data = it.next();
-            drawCard(data.second, playedCards, k*(cardWidth*cardScale), 0 , cardScale);
+            drawCard(data.second, playedCards, k*(cardWidth*cardScale + separation) , 0 , cardScale);
             Text playerName = new Text(data.first.name);
+            //Draw the card
             playedCards.getChildren().add(playerName);
-            playerName.setTranslateX(k*(cardWidth*cardScale));
+            playerName.setTranslateX(k*(cardWidth*cardScale + separation) );
             playerName.setFont(Font.font(15));
             playerName.setFill(Color.WHITE);
+            k++;
         }
 
-        playersData.getChildren().add(playedCards);
+        //Add played Cards to the root and translate
+        root.getChildren().add(playedCards);
         playedCards.setTranslateX(3*(cardWidth*cardScale));
         playedCards.setTranslateY((GameManager.currentGame.numberOfPlayers+1)*(cardHeight*cardScale));
 
-        scene = new Scene(playersData, Color.BLACK);
+        //Update Window
+        scene = new Scene(root, Color.BLACK);
         mainWindow.setScene(scene);
         mainWindow.show();
         

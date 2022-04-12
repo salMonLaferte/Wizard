@@ -1,5 +1,7 @@
 package com.DavidDiaz.Wizard;
 
+import java.util.Random;
+
 class Round {
     int paloTriunfo;
     int leaderFigure;
@@ -46,10 +48,12 @@ class Round {
      * Shuffles the deck
      */
     void shuffleDeck(){
+        SimpleLinkedList<Card> aux = new SimpleLinkedList<>();
+        //Put every card in a list
         for(int i=1; i<=4; i++){
             for(int j=1; j<=13; j++){
                 Card c = new RegularCard(i, j);
-                deck.push(c);
+                aux.add(c);
             }
         }
         for(int i=0; i<4; i++){
@@ -57,6 +61,13 @@ class Round {
         }
         for(int i=0; i<4; i++){
             deck.push(new DumbCard());
+        }
+        //Randomly take one card of the list and put it on the deck until the list is empty
+        Random rand = new Random();
+        while(!aux.isEmpty()){
+            int n = rand.nextInt(aux.getSize());
+            Card c = aux.getAndDeleteAtIndex(n);
+            deck.push(c);
         }
     }
 
@@ -100,10 +111,12 @@ class Round {
                 App.showMessageToUser("Error", "La carta que introdujiste no es válida");
                 playedCard = App.askForUserInput(message, format, defaultValue );
             }
+            currentPlayer.playCard(playedCard);
         }
         
         if(currentTrick == numberOfRound){
-             GameManager.StartNextRound(numberOfRound+1);
+            GameManager.getTrickWinner();
+            GameManager.StartNextRound(numberOfRound+1);
         }
         else{
             lastWinner = GameManager.getTrickWinner();
