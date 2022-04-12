@@ -3,7 +3,7 @@ package com.DavidDiaz.Wizard;
 import java.util.Random;
 
 class Round {
-    int paloTriunfo;
+    int winnerFigure;
     int leaderFigure;
     int shufflePlayer;
     int numberOfRound;
@@ -14,6 +14,7 @@ class Round {
     public Round(int number){
         deck = new Stack<Card>();
         numberOfRound = number;
+        currentTrick = 1;
     }
 
     //Round Initialization
@@ -22,12 +23,11 @@ class Round {
         GameManager.lastPlayerWhoSuffled = shufflePlayer;
         shuffleDeck();
         distributeCards();
+        setWinnerFigure();
+        App.showMessageToUser("Palo de triunfo seleccionado", "El palo de triunfo es: " + RegularCard.getFigureName(winnerFigure) );
         setGuesses();
-        setPaloTriunfo();
         leaderFigure = 0;
-        currentTrick = 1;
         App.drawEverything();
-        nextTrick();
     }
 
     /**
@@ -57,10 +57,10 @@ class Round {
             }
         }
         for(int i=0; i<4; i++){
-            deck.push(new WizardCard());
+            aux.add(new WizardCard());
         }
         for(int i=0; i<4; i++){
-            deck.push(new DumbCard());
+            aux.add(new DumbCard());
         }
         //Randomly take one card of the list and put it on the deck until the list is empty
         Random rand = new Random();
@@ -72,10 +72,35 @@ class Round {
     }
 
     /**
-     * 
+     * Sets the winner figure
      */
-    void setPaloTriunfo(){
-        paloTriunfo = 1;
+    void setWinnerFigure(){
+        if(deck.isEmpty()){
+            winnerFigure = 0;
+            return;
+        }
+        Card c = deck.top();
+        if( c instanceof RegularCard){
+            RegularCard rc = (RegularCard)c;
+            winnerFigure = rc.getFigure();
+            return;
+        }
+        if(c instanceof WizardCard){
+            String playerName = GameManager.currentGame.getPlayer(shufflePlayer).getName();
+            String format = "Introduce una de las siguientes letras";
+            format += "\n P para elegir Peach \n M para elegir Mario \n T para elegir Toad \n B para elegir Bowser";
+            String input = App.askForUserInput("El jugador:  " + playerName + " debe elegir el palo de triunfo.", format, "P");
+            while( ! ( input.equals("P") || input.equals("T") || input.equals("M") || input.equals("B") ) ){
+                App.showMessageToUser("Formato inválido", "Por favor introduce una de las letras especificadas");
+                input = App.askForUserInput("El jugador:  " + playerName + " debe elegir el palo de triunfo.", format, "P");
+            }
+            winnerFigure = RegularCard.getFigureNumber(input);
+            return;
+        }
+        if(c instanceof DumbCard){
+            winnerFigure = 0;
+            return;
+        }
     }
 
     /**
@@ -124,18 +149,9 @@ class Round {
                     leaderFigureIsSet = true;
                 }
             }
+        }
+        currentTrick++;
 
-        }
-        //if currentTrick is the last one start a new round
-        if(currentTrick == numberOfRound){
-            GameManager.getTrickWinner( paloTriunfo, leaderFigure);
-            GameManager.StartNextRound(numberOfRound+1);
-        }
-        else{
-            lastWinner = GameManager.getTrickWinner( paloTriunfo, leaderFigure).getPlayerId();
-            currentTrick++;
-            nextTrick();
-        }
     }
 
 }

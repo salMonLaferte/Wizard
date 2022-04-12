@@ -146,4 +146,20 @@ class Player {
         return playerId;
     }
 
+    /**
+     * Return currentRoundWins for currentRound
+     * @return
+     */
+    public int getCurrentRoundWins(){
+        return currentRoundWins;
+    }
+
+    /**
+     * Returns playerCurrentScore
+     * @return
+     */
+    public int getScore(){
+        return score;
+    }
+
 }

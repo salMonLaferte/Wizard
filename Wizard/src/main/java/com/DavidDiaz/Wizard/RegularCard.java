@@ -82,4 +82,18 @@ class RegularCard extends Card {
         return "";
     }
 
+    public static String getFigureName(int f){
+          switch(f){
+            case 1:
+            return "Peach";
+            case 2:
+            return "Toad";
+            case 3:
+            return "Mario";
+            case 4:
+            return "Bowser";
+        }
+        return "";
+    }
+
 }

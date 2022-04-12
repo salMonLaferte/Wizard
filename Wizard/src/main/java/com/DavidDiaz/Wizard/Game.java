@@ -29,6 +29,14 @@ class Game {
         return players[index];
     }
 
+    /**
+     * 
+     * @return
+     */
+    public int getNumberOfRounds(){
+        return rounds;
+    }
+
 
 
 }

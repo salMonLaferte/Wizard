@@ -31,18 +31,6 @@ public class App extends Application {
         launch();
     }
 
-    /*EventHandler clickHandler = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-            Object source = event.getSource();
-            if(source instanceof ImageView){
-                ImageView imgview = (ImageView)source;
-                Parent n = imgview.getParent();
-            }
-        }
-        
-    };*/
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         //Set Window
@@ -59,10 +47,6 @@ public class App extends Application {
 
         //Set Game
         GameManager.StartAGame(6);
-
-        //Draw
-        drawEverything();
-
     }
 
     /**

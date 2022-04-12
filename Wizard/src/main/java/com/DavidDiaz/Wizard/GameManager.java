@@ -11,15 +11,29 @@ class GameManager {
 
     static void StartAGame(int numberOfPlayers){
         currentGame = new Game(numberOfPlayers);
-        currentRound = new Round(1);
         cardsPlayed = new SimpleLinkedList<MyPair<Player, Card>>();
-        currentRound.roundStart();
+        mainLoop();
     }
 
     static void StartNextRound(int numberOfRound){
+        App.showMessageToUser("Es hora de la ronda: " + numberOfRound,"");
         currentRound = new Round(numberOfRound);
         currentRound.roundStart();
     }
+
+    static void mainLoop(){
+        int roundNo = 1;
+        while(roundNo <= currentGame.getNumberOfRounds()){
+            StartNextRound(roundNo);
+            while(currentRound.currentTrick <= roundNo){
+                currentRound.nextTrick();
+                Player winnerOfTrick = getTrickWinner(currentRound.winnerFigure, currentRound.leaderFigure);
+                currentRound.lastWinner = winnerOfTrick.getPlayerId();
+            }
+            roundNo++;
+        }
+    }
+
 
 
     static Player getTrickWinner(int winnerFigure, int leaderFigure){
@@ -34,19 +48,25 @@ class GameManager {
             }
         }
 
+        Player playerWhoPlayedMax = null;
         //Look for highest winnerFigure
-        Player playerWhoPlayedMax = lookForHighestOfFigure(winnerFigure);
-        if(playerWhoPlayedMax != null){
-            giveVictoryToPlayer(playerWhoPlayedMax, " debido a que jugó el palo de triunfo más alto ");
-            return playerWhoPlayedMax;
+        if(winnerFigure != 0){
+            playerWhoPlayedMax = lookForHighestOfFigure(winnerFigure);
+            if(playerWhoPlayedMax != null){
+                giveVictoryToPlayer(playerWhoPlayedMax, " debido a que jugó el palo de triunfo más alto ");
+                return playerWhoPlayedMax;
+            }
         }
-
+       
         //Look for highest leaderFigure
-        playerWhoPlayedMax = lookForHighestOfFigure(leaderFigure);
-        if(playerWhoPlayedMax != null){
-            giveVictoryToPlayer(playerWhoPlayedMax, " debido a que jugó el palo lider más alto ");
-            return playerWhoPlayedMax;
+        if(leaderFigure !=0){
+            playerWhoPlayedMax = lookForHighestOfFigure(leaderFigure);
+            if(playerWhoPlayedMax != null){
+                giveVictoryToPlayer(playerWhoPlayedMax, " debido a que jugó el palo lider más alto ");
+                return playerWhoPlayedMax;
+            }
         }
+        
 
         //Look for player who played first dumbcard
         it = cardsPlayed.begin();
