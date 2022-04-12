@@ -3,10 +3,11 @@ package com.DavidDiaz.Wizard;
 import java.util.Iterator;
 
 class Player {
-    protected String name;
-    protected int score;
-    protected int currentGuess;
-    protected SimpleLinkedList<Card> hand;
+    private String name;
+    private int score;
+    private int currentGuess;
+    private int currentRoundWins;
+    private SimpleLinkedList<Card> hand;
     
     public Player( String name ){
         this.name = name;
@@ -89,6 +90,51 @@ class Player {
         Card c = Card.StrToCard(cardStr);
         hand.delete(c);
         GameManager.playCard(this, c);
+    }
+
+    /**Increase roundsWin by 1 
+    * 
+    */
+    public void RoundWin(){
+        currentRoundWins++;
+    }
+
+    /**Returns name of the player 
+     * 
+    */
+    public String getName(){
+        return name;
+    }
+
+    /**
+     * Clears player hand
+     */
+    public void clearHand(){
+        hand.clear();
+    }
+
+    /**
+     * Adds card to hand
+     * @param c
+     */
+    public void addToHand(Card c){
+        hand.add(c);
+    }
+
+    /**
+     * Returns an iterator to the begin of the hand
+     * @return
+     */
+    public Iterator<Card> handBegin(){
+        return hand.begin();
+    }
+
+    /**
+     * Returns current guess
+     * @return
+     */
+    public int getCurrentGuess(){
+        return currentGuess;
     }
 
 }

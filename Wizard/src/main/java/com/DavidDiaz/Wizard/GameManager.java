@@ -1,5 +1,7 @@
 package com.DavidDiaz.Wizard;
 
+import java.util.Iterator;
+
 class GameManager {
     static Round currentRound;
     static Game currentGame;
@@ -19,6 +21,17 @@ class GameManager {
     }
 
     static int getTrickWinner(){
+        Iterator<MyPair<Player, Card>> it = cardsPlayed.begin();
+        String winnerName = "";
+        //Look for first Wizard
+        while(it.hasNext()){
+            MyPair<Player, Card> pair = it.next();
+            if(pair.second instanceof WizardCard){
+                winnerName = pair.first.getName();
+                pair.first.RoundWin();
+            }
+
+        }
         cardsPlayed.clear();
         App.drawEverything();
         return 1;

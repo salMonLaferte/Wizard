@@ -18,7 +18,7 @@ class Round {
 
     //Round Initialization
     public void roundStart(){
-        shufflePlayer = (GameManager.lastPlayerWhoSuffled +1) % GameManager.currentGame.numberOfPlayers;
+        shufflePlayer = (GameManager.lastPlayerWhoSuffled +1) % GameManager.currentGame.getNumberOfPlayers();
         GameManager.lastPlayerWhoSuffled = shufflePlayer;
         shuffleDeck();
         distributeCards();
@@ -34,12 +34,12 @@ class Round {
      * Distribute Cards for the players
      */
     void distributeCards(){
-        for(int j=0; j< GameManager.currentGame.numberOfPlayers; j++){
-            GameManager.currentGame.players[j].hand.clear();
+        for(int j=0; j< GameManager.currentGame.getNumberOfPlayers(); j++){
+            GameManager.currentGame.getPlayer(j).clearHand();;
             for(int i=0; i<numberOfRound; i++){
                 Card c = deck.top();
                 deck.pop();
-                GameManager.currentGame.players[j].hand.add(c);
+                GameManager.currentGame.getPlayer(j).addToHand(c);;
             }
         }
     }
@@ -82,8 +82,8 @@ class Round {
      * Set the players prediction for the currentRound
      */
     void setGuesses(){
-        for(int i=0; i<GameManager.currentGame.numberOfPlayers; i++){
-            GameManager.currentGame.players[i].setGuess();
+        for(int i=0; i<GameManager.currentGame.getNumberOfPlayers(); i++){
+            GameManager.currentGame.getPlayer(i).setGuess();
         }
     }
 
@@ -92,9 +92,11 @@ class Round {
      */
     void nextTrick(){
         int starterPlayer;
-        int numberOfPlayers = GameManager.currentGame.numberOfPlayers;
+        int numberOfPlayers = GameManager.currentGame.getNumberOfPlayers();
         String format = "Introduce la carta a jugar";
         String defaultValue = "";
+        boolean leaderFigureIsSet = false;
+        leaderFigure = 0;//At the beggining of the round there's no leaderFigure
 
         //Set starter player for current trick;
         if(currentTrick == 1){
@@ -104,16 +106,27 @@ class Round {
 
         //Ask every player to play a valid card
         for(int i=0 ; i<numberOfPlayers; i++){
-            Player currentPlayer = GameManager.currentGame.players[(starterPlayer + i) % numberOfPlayers];
-            String message = "Es turno del jugador " + currentPlayer.name;            
+            Player currentPlayer = GameManager.currentGame.getPlayer((starterPlayer + i) % numberOfPlayers);
+            String message = "Es turno del jugador " + currentPlayer.getName();            
             String playedCard = App.askForUserInput(message, format, defaultValue );
             while( !currentPlayer.validateCard(playedCard, leaderFigure)){
                 App.showMessageToUser("Error", "La carta que introdujiste no es válida");
                 playedCard = App.askForUserInput(message, format, defaultValue );
             }
             currentPlayer.playCard(playedCard);
+            
+            //If leaderFigure is not set and player played a regular card then set the leader figure
+            if(!leaderFigureIsSet){
+                Card c = Card.StrToCard(playedCard);
+                if(c instanceof RegularCard){
+                    RegularCard rc = (RegularCard)c;
+                    leaderFigure = rc.getFigure();
+                    leaderFigureIsSet = true;
+                }
+            }
+
         }
-        
+        //if currentTrick is the last one start a new round
         if(currentTrick == numberOfRound){
             GameManager.getTrickWinner();
             GameManager.StartNextRound(numberOfRound+1);

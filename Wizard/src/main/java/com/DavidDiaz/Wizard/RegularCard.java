@@ -2,8 +2,8 @@ package com.DavidDiaz.Wizard;
 
 class RegularCard extends Card {
     
-    protected int figure;
-    protected int number;
+    private int figure;
+    private int number;
 
     public RegularCard(int figure, int number){
         this.figure = figure;
@@ -47,6 +47,13 @@ class RegularCard extends Card {
         return "";
     }
 
+    public int getFigure(){
+        return figure;
+    }
+
+    public int getNumber(){
+        return number;
+    }
     public static int getFigureNumber(String s){
         switch(s){
             case "P":
@@ -74,4 +81,5 @@ class RegularCard extends Card {
         }
         return "";
     }
+
 }

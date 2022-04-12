@@ -9,7 +9,6 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Separator;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -87,7 +86,7 @@ public class App extends Application {
                 number = "W";
         }else{
             RegularCard c = (RegularCard)card;
-            number = "" + c.number;
+            number = "" + c.getNumber();
         }
         //Set a rectangle to indicate number of card
         Rectangle r = new Rectangle(40, 40, Color.BLACK);
@@ -120,11 +119,11 @@ public class App extends Application {
         Group root = new Group();
 
         //Draw players data
-        for(int i=0; i<GameManager.currentGame.numberOfPlayers; i++){
-            Iterator<Card> it = GameManager.currentGame.players[i].hand.begin();
+        for(int i=0; i<GameManager.currentGame.getNumberOfPlayers(); i++){
+            Iterator<Card> it = GameManager.currentGame.getPlayer(i).handBegin();
             int k=0;
             //Draw playe info
-            Text text = new Text("Cartas de " + GameManager.currentGame.players[i].name);
+            Text text = new Text("Cartas de " + GameManager.currentGame.getPlayer(i).getName());
             root.getChildren().add(text);
             text.setTranslateX(10);
             text.setTranslateY(50 + i*(cardHeight*cardScale));
@@ -147,7 +146,7 @@ public class App extends Application {
             //Draw who played the card
             MyPair<Player,Card> data = it.next();
             drawCard(data.second, playedCards, k*(cardWidth*cardScale + separation) , 0 , cardScale);
-            Text playerName = new Text(data.first.name);
+            Text playerName = new Text(data.first.getName());
             //Draw the card
             playedCards.getChildren().add(playerName);
             playerName.setTranslateX(k*(cardWidth*cardScale + separation) );
@@ -159,7 +158,7 @@ public class App extends Application {
         //Add played Cards to the root and translate
         root.getChildren().add(playedCards);
         playedCards.setTranslateX(3*(cardWidth*cardScale));
-        playedCards.setTranslateY((GameManager.currentGame.numberOfPlayers+1)*(cardHeight*cardScale));
+        playedCards.setTranslateY((GameManager.currentGame.getNumberOfPlayers()+1)*(cardHeight*cardScale));
 
         //Update Window
         scene = new Scene(root, Color.BLACK);

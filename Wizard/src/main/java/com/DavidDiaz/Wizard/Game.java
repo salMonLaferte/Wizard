@@ -1,9 +1,9 @@
 package com.DavidDiaz.Wizard;
 
 class Game {
-    int numberOfPlayers;
-    Player[] players;
-    int rounds;
+    private int numberOfPlayers;
+    private Player[] players;
+    private int rounds;
 
     public Game(int numberOfPlayers){
         this.numberOfPlayers = numberOfPlayers;
@@ -14,8 +14,21 @@ class Game {
         rounds = 60/numberOfPlayers;
     }
 
-    public static void Start(){
-
+    /**
+     * Returns number of players of the game
+    */
+    public int getNumberOfPlayers(){
+        return numberOfPlayers;
     }
+
+    /**
+     * Return players array
+     * @return
+     */
+    public Player getPlayer(int index){
+        return players[index];
+    }
+
+
 
 }
