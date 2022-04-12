@@ -81,4 +81,14 @@ class Player {
         return false;
     }
 
+    /**
+     * Plays a Card, dont call this method until cardStr has been validated
+     * @param cardStr
+     */
+    public void playCard(String cardStr){
+        Card c = Card.StrToCard(cardStr);
+        hand.delete(c);
+        GameManager.playCard(this, c);
+    }
+
 }

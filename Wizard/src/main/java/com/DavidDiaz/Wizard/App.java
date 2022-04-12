@@ -113,27 +113,43 @@ public class App extends Application {
 
     /**
      * Draws everything in the window
-     * @param root
      */
     public static void drawEverything(){
-        Group root = new Group();
+        Group playersData = new Group();
         for(int i=0; i<GameManager.currentGame.numberOfPlayers; i++){
             Iterator<Card> it = GameManager.currentGame.players[i].hand.begin();
             int k=0;
             Text text = new Text("Cartas de " + GameManager.currentGame.players[i].name);
-            root.getChildren().add(text);
+            playersData.getChildren().add(text);
             text.setTranslateX(10);
             text.setTranslateY(50 + i*(cardHeight*cardScale));
             text.setFont(Font.font(15));
             text.setFill(Color.WHITE);
             System.out.println(GameManager.currentGame.players[i].hand.getSize());
             while(it.hasNext()){
-                drawCard(it.next(),root, 150 + k*(cardWidth*cardScale), i*(cardHeight*cardScale), cardScale);
+                drawCard(it.next(),playersData, 150 + k*(cardWidth*cardScale), i*(cardHeight*cardScale), cardScale);
                 k++;
             }
         }
 
-        scene = new Scene(root, Color.BLACK);
+        Group playedCards = new Group();
+        Iterator<MyPair<Player, Card>> it = GameManager.cardsPlayed.begin();
+        int k=0;
+        while(it.hasNext()){
+            MyPair<Player,Card> data = it.next();
+            drawCard(data.second, playedCards, k*(cardWidth*cardScale), 0 , cardScale);
+            Text playerName = new Text(data.first.name);
+            playedCards.getChildren().add(playerName);
+            playerName.setTranslateX(k*(cardWidth*cardScale));
+            playerName.setFont(Font.font(15));
+            playerName.setFill(Color.WHITE);
+        }
+
+        playersData.getChildren().add(playedCards);
+        playedCards.setTranslateX(3*(cardWidth*cardScale));
+        playedCards.setTranslateY((GameManager.currentGame.numberOfPlayers+1)*(cardHeight*cardScale));
+
+        scene = new Scene(playersData, Color.BLACK);
         mainWindow.setScene(scene);
         mainWindow.show();
         
