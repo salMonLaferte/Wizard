@@ -81,7 +81,7 @@ public class App extends Application {
         String number;
         if(card instanceof DumbCard || card instanceof WizardCard){
             if(card instanceof DumbCard)
-                number = "B";
+                number = "S";
             else
                 number = "W";
         }else{
@@ -132,7 +132,7 @@ public class App extends Application {
                 k++;
             }
         }
-        
+
         scene = new Scene(root, Color.BLACK);
         mainWindow.setScene(scene);
         mainWindow.show();
