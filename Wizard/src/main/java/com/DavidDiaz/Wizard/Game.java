@@ -9,7 +9,7 @@ class Game {
         this.numberOfPlayers = numberOfPlayers;
         players = new Player[numberOfPlayers];
         for(int i=0; i<numberOfPlayers; i++){
-            players[i] = new Player( "Jugador  " + (i+1));
+            players[i] = new Player( "Jugador  " + (i+1), i);
         }
         rounds = 60/numberOfPlayers;
     }

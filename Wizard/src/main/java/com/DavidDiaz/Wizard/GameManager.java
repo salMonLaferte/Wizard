@@ -1,5 +1,6 @@
 package com.DavidDiaz.Wizard;
 
+
 import java.util.Iterator;
 
 class GameManager {
@@ -20,23 +21,81 @@ class GameManager {
         currentRound.roundStart();
     }
 
-    static int getTrickWinner(){
+
+    static Player getTrickWinner(int winnerFigure, int leaderFigure){
         Iterator<MyPair<Player, Card>> it = cardsPlayed.begin();
-        String winnerName = "";
+
         //Look for first Wizard
         while(it.hasNext()){
             MyPair<Player, Card> pair = it.next();
             if(pair.second instanceof WizardCard){
-                winnerName = pair.first.getName();
-                pair.first.RoundWin();
+                giveVictoryToPlayer(pair.first, " debido a que jugó un mago.");
+                return pair.first;
             }
-
         }
-        cardsPlayed.clear();
-        App.drawEverything();
-        return 1;
+
+        //Look for highest winnerFigure
+        Player playerWhoPlayedMax = lookForHighestOfFigure(winnerFigure);
+        if(playerWhoPlayedMax != null){
+            giveVictoryToPlayer(playerWhoPlayedMax, " debido a que jugó el palo de triunfo más alto ");
+            return playerWhoPlayedMax;
+        }
+
+        //Look for highest leaderFigure
+        playerWhoPlayedMax = lookForHighestOfFigure(leaderFigure);
+        if(playerWhoPlayedMax != null){
+            giveVictoryToPlayer(playerWhoPlayedMax, " debido a que jugó el palo lider más alto ");
+            return playerWhoPlayedMax;
+        }
+
+        //Look for player who played first dumbcard
+        it = cardsPlayed.begin();
+        while(it.hasNext()){
+            MyPair<Player, Card> pair = it.next();
+            if(pair.second instanceof DumbCard){
+                giveVictoryToPlayer(pair.first, " debido a que jugó un buffón primero ");
+                return pair.first;
+            }
+        }
+        return null;
     }
 
+    /**
+     * Search and returns the playerd who played the highest card of the specified figure
+     * @param figure
+     * @return
+     */
+    static Player lookForHighestOfFigure(int figure){
+        Iterator< MyPair<Player, Card> > it = cardsPlayed.begin();
+        int max = 0;
+        Player playerWhoPlayedMax = null;
+        while(it.hasNext()){
+            MyPair<Player, Card> pair = it.next();
+            if(pair.second instanceof RegularCard){
+                RegularCard rc = (RegularCard)pair.second;
+                if( rc.getFigure() == figure && rc.getNumber() > max){
+                    max = rc.getNumber();
+                    playerWhoPlayedMax = pair.first;
+                }
+            }
+        }
+        return playerWhoPlayedMax;
+    }
+
+    /**
+     * Clears the list of cards played, shows who won the trick, updates window and increases player score of this round by one
+     * @param p
+     */
+    static void giveVictoryToPlayer(Player p, String reason){
+        p.RoundWin();
+        App.showMessageToUser("Ganador: " + p.getName(), "El ganador del truco fue: " + p.getName() + " " + reason);
+        cardsPlayed.clear();
+        App.drawEverything();
+    }
+
+    /**
+     * Add the card and the player who played it to the list
+     */
     static void playCard(Player p, Card c){
         MyPair<Player,Card> pair = new MyPair<Player,Card>(p, c);
         cardsPlayed.add(pair);

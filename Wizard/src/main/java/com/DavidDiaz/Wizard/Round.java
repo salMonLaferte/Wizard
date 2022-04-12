@@ -128,11 +128,11 @@ class Round {
         }
         //if currentTrick is the last one start a new round
         if(currentTrick == numberOfRound){
-            GameManager.getTrickWinner();
+            GameManager.getTrickWinner( paloTriunfo, leaderFigure);
             GameManager.StartNextRound(numberOfRound+1);
         }
         else{
-            lastWinner = GameManager.getTrickWinner();
+            lastWinner = GameManager.getTrickWinner( paloTriunfo, leaderFigure).getPlayerId();
             currentTrick++;
             nextTrick();
         }

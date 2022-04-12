@@ -8,8 +8,9 @@ class Player {
     private int currentGuess;
     private int currentRoundWins;
     private SimpleLinkedList<Card> hand;
+    private int playerId;
     
-    public Player( String name ){
+    public Player( String name, int id ){
         this.name = name;
         score = 0;
         currentGuess = 0;
@@ -135,6 +136,14 @@ class Player {
      */
     public int getCurrentGuess(){
         return currentGuess;
+    }
+
+    /**
+     * Return player index on the game array
+     * @return
+     */
+    public int getPlayerId(){
+        return playerId;
     }
 
 }
