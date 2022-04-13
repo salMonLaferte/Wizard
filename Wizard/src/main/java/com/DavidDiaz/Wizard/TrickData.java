@@ -1,6 +1,5 @@
 package com.DavidDiaz.Wizard;
 
-import java.util.Iterator;
 
 class TrickData {
     private int leaderFigure;

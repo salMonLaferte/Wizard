@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -237,7 +238,7 @@ public class App extends Application {
                 return "";
             }
             else if(resultMayus.equals("HISTORIAL")){
-                showMessageToUser("Historial", GameManager.getGameData());
+                showScrolleableMessageToUser("Historial", GameManager.getGameData());
                 return "";
             }
             return resultMayus;
@@ -258,7 +259,27 @@ public class App extends Application {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    /**
+     * Show relevant info to the user in a scrolleable window
+     * @param title
+     * @param message
+     */
+    public static void showScrolleableMessageToUser(String title, String message){
+        Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+        TextArea textArea = new TextArea(message);
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.getDialogPane().setContent(textArea);
+        alert.setResizable(true);
+        alert.showAndWait();
+    }
     
+    /**
+     * Imprime los resultadps, el ganador y cierra la aplicacion
+     */
     public static void terminar(){
         String resultados = "";
         int maxScore = GameManager.currentGame.getPlayer(0).getScore();

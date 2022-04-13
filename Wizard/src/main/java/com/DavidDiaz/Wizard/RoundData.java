@@ -5,6 +5,7 @@ class RoundData {
     private SimpleLinkedList<TrickData> tricks;
     private SimpleLinkedList<MyPair<Player, Integer>> scoresAtTheEnd;
     private SimpleLinkedList<MyPair<Player, Integer>> predicciones;
+    private int winnerFigure;
   
 
     public RoundData(int numberOfRound){
@@ -21,6 +22,7 @@ class RoundData {
     @Override
     public String toString(){
         String result = "Ronda: " + numberOfRound + "\n";
+        result+= "Palo de triunfo: " + RegularCard.getFigureName(winnerFigure) + "\n";
         result+= "Predicciones: " + "\n";
         result+= predicciones.toString();
         result+= "Trucos: \n";
@@ -41,6 +43,10 @@ class RoundData {
     public void addPrediction(Player p, int number){
         MyPair<Player, Integer> pred = new MyPair<>(p, number);
         predicciones.add(pred);
+    }
+
+    public void setWinnerFigure(int figure){
+        winnerFigure = figure;
     }
 
 }

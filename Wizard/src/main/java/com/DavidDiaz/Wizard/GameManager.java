@@ -40,6 +40,7 @@ class GameManager {
         int roundNo = 1;
         while(roundNo <= currentGame.getNumberOfRounds()){
             StartNextRound(roundNo);
+            currentRoundData.setWinnerFigure(currentRound.getWinnerFigure());
             while(currentRound.getCurrentTrick() <= roundNo){
                 TrickData data = new TrickData(currentRound.getCurrentTrick());
                 currentRound.nextTrick(data);
