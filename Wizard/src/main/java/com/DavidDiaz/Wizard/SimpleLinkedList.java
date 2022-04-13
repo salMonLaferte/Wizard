@@ -180,7 +180,7 @@ public class SimpleLinkedList<T> {
         String result = "";
         Node current = head;
         while(current != null){
-            result += current.data.toString();
+            result += current.data.toString() + "\n";
             current = current.next;
         }
         return result;

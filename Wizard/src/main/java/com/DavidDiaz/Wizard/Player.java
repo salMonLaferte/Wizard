@@ -39,6 +39,7 @@ class Player {
             }
         }
         currentGuess = a;
+        GameManager.currentRoundData.addPrediction(this, a);
         App.drawEverything();
     }
 
@@ -181,10 +182,25 @@ class Player {
         currentRoundWins =r;
     }
 
+    /**
+     * Returns the name of the player
+     */
+    @Override
+    public String toString(){
+        return name;
+    }
+
+    /**
+     * Increase the score by n
+     * @param n
+     */
     public void increaseScore(int n){
         score +=n;
     }
 
+    /**
+     * Set current Guess to -1
+     */
     public void resetGuess(){
         currentGuess = -1;
     }

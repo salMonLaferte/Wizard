@@ -121,7 +121,7 @@ class Round {
     /**Manage the next trick of this round
      * 
      */
-    void nextTrick(){
+    void nextTrick(TrickData data){
         int starterPlayer;
         int numberOfPlayers = GameManager.currentGame.getNumberOfPlayers();
         String format = "Introduce la carta a jugar";
@@ -145,6 +145,7 @@ class Round {
                 playedCard = App.askForUserInput(message, format, defaultValue );
             }
             currentPlayer.playCard(playedCard);
+            data.addPlayedCard(currentPlayer, playedCard);
             
             //If leaderFigure is not set and player played a regular card then set the leader figure
             if(!leaderFigureIsSet){
@@ -152,6 +153,7 @@ class Round {
                 if(c instanceof RegularCard){
                     RegularCard rc = (RegularCard)c;
                     leaderFigure = rc.getFigure();
+                    data.setLeaderFigure(leaderFigure);
                     leaderFigureIsSet = true;
                     App.drawEverything();
                 }

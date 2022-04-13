@@ -236,8 +236,11 @@ public class App extends Application {
                 terminar();
                 return "";
             }
-            else
-                return resultMayus;
+            else if(resultMayus.equals("HISTORIAL")){
+                showMessageToUser("Historial", GameManager.getGameData());
+                return "";
+            }
+            return resultMayus;
         }
         else 
             return "";

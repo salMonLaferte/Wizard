@@ -8,6 +8,7 @@ class GameManager {
     static Game currentGame;
     static SimpleLinkedList<MyPair<Player, Card>> cardsPlayed;
     static SimpleLinkedList<RoundData> roundData;
+    static RoundData currentRoundData;
     static int lastPlayerWhoSuffled = -1;
 
     /**
@@ -21,9 +22,14 @@ class GameManager {
         mainLoop();
     }
 
+    /**
+     * Creates and sets a new round also creates a new roundData
+     * @param numberOfRound
+     */
     static void StartNextRound(int numberOfRound){
         App.showMessageToUser("Ronda: " + numberOfRound, "Comezará la ronda número: " + numberOfRound);
         currentRound = new Round(numberOfRound);
+        currentRoundData = new RoundData(numberOfRound);
         currentRound.roundStart();
     }
 
@@ -35,20 +41,29 @@ class GameManager {
         while(roundNo <= currentGame.getNumberOfRounds()){
             StartNextRound(roundNo);
             while(currentRound.getCurrentTrick() <= roundNo){
-                currentRound.nextTrick();
+                TrickData data = new TrickData(currentRound.getCurrentTrick());
+                currentRound.nextTrick(data);
                 Player winnerOfTrick = getTrickWinner(currentRound.getWinnerFigure(), currentRound.getLeaderFigure());
+                data.setWinner(winnerOfTrick);
+                resetPlayedCards();
+                App.drawEverything();
                 currentRound.setLastWinner( winnerOfTrick.getPlayerId() ) ;
+                currentRoundData.addTrickData(data);
             }
-            String scoreChange = increasePlayerScores();
+            String scoreChange = increaseAndSavePlayerScores();
             App.showMessageToUser("Ronda: " + roundNo +  " finalizada. ", "Resultados \n" + scoreChange);
             resetPlayerTrickWins();
             App.drawEverything();
+            roundData.add(currentRoundData);
             roundNo++;
         }
         App.terminar();
     }
 
 
+    /**Returns the tick winner using the current cardsPlayed
+     * 
+     */
     static Player getTrickWinner(int winnerFigure, int leaderFigure){
         Iterator<MyPair<Player, Card>> it = cardsPlayed.begin();
 
@@ -116,14 +131,12 @@ class GameManager {
     }
 
     /**
-     * Clears the list of cards played, shows who won the trick, updates window and increases player score of this round by one
+     * Shows who won the trick, updates window and increases player score of this round by one
      * @param p
      */
     static void giveVictoryToPlayer(Player p, String reason){
         p.RoundWin();
         App.showMessageToUser("Ganador: " + p.getName(), "El ganador del truco fue: " + p.getName() + " " + reason);
-        cardsPlayed.clear();
-        App.drawEverything();
     }
 
     /**
@@ -138,7 +151,7 @@ class GameManager {
     /**
      * Increase players scores, only call this function at the end of a round
      */
-    static String increasePlayerScores(){
+    static String increaseAndSavePlayerScores(){
         String details = "";
         for(int i=0; i<currentGame.getNumberOfPlayers(); i++){
             Player p = currentGame.getPlayer(i);
@@ -150,6 +163,8 @@ class GameManager {
                 p.increaseScore(-10 * Math.abs(p.getCurrentGuess() - p.getCurrentRoundWins()) );
             }
             details += p.getScore() + "\n";
+            MyPair<Player, Integer> pair = new MyPair<Player,Integer>(p, p.getScore());
+            currentRoundData.addScore(pair);
         }
         return details;
     }
@@ -164,4 +179,21 @@ class GameManager {
         }
     }
 
+    /**
+     * Return a String whith the history of the game
+     * @return
+     */
+    public static String getGameData(){
+        Iterator<RoundData> it = roundData.begin();
+        String result = "";
+        while(it.hasNext()){
+            result += it.next().toString();
+            result += "\n";
+        }
+        return result;
+    }
+
+    public static void resetPlayedCards(){
+        cardsPlayed.clear();
+    }
 }

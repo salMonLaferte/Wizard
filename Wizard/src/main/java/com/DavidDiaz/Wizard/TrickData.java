@@ -5,13 +5,11 @@ import java.util.Iterator;
 class TrickData {
     private int leaderFigure;
     private int numberOfTrick;
-    private SimpleLinkedList<MyPair<Player,Card>> playedCards;
+    private SimpleLinkedList<MyPair<Player,String>> playedCards;
     private Player winner;
 
-    public TrickData(int leaderFigure, SimpleLinkedList<MyPair<Player,Card>> playedCards, Player winner, int numberOfTrick){
-        this.leaderFigure = leaderFigure;
-        this.playedCards = playedCards;
-        this.winner = winner;
+    public TrickData(int numberOfTrick){
+        this.playedCards = new SimpleLinkedList<>();
         this.numberOfTrick = numberOfTrick;
     }
     
@@ -23,20 +21,30 @@ class TrickData {
         return winner;
     }
 
-    public SimpleLinkedList<MyPair<Player,Card>> getPlayedCards(){
+    public SimpleLinkedList<MyPair<Player,String>> getPlayedCards(){
         return playedCards;
+    }
+
+    public void addPlayedCard(Player p, String card){
+        MyPair<Player, String> pair = new MyPair<Player,String>(p, card);
+        playedCards.add(pair);
+    }
+
+    public void setWinner(Player p){
+        winner = p;
+    }
+
+    public void setLeaderFigure(int leaderFigure){
+        this.leaderFigure = leaderFigure;
     }
 
     @Override
     public String toString(){
-        String result = "Truco " + numberOfTrick;
+        String result = "Truco " + numberOfTrick + "\n";
         result += "Palo lider: " + RegularCard.getFigureName(leaderFigure) + "\n";
-        Iterator<MyPair<Player, Card>> it = playedCards.begin();
-        while(it.hasNext()){
-            MyPair<Player, Card> playerCard = it.next();
-            result += playerCard.first.getName() + " jugó: " + playerCard.second.toString() + "\n";
-        }
-        result += "Ganador del truco: " + winner.getName() + "\n";
+        result += "Cartas jugadas en orden:\n";
+        result += playedCards.toString();
+        result += "Ganador del truco: " + winner.getName() ;
         return result;
     }
 

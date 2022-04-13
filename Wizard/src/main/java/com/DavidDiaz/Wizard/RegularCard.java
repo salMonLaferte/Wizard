@@ -54,6 +54,7 @@ class RegularCard extends Card {
     public int getNumber(){
         return number;
     }
+    
     public static int getFigureNumber(String s){
         switch(s){
             case "P":
