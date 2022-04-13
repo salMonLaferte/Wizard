@@ -103,10 +103,11 @@ public class SimpleLinkedList<T> {
             if(current.next.data.equals(data)){
                 current.next = current.next.next;
                 size--;
-                if(head == null)
+                if(current.next == null)
                     tail = null;
                 return true;
             }
+            current = current.next;
         }
         return false;   
     }

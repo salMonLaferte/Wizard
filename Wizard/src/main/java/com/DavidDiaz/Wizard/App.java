@@ -46,7 +46,7 @@ public class App extends Application {
         mainWindow.show();
 
         //Set Game
-        GameManager.StartAGame(6);
+        GameManager.StartAGame(3);
     }
 
     /**
@@ -110,16 +110,25 @@ public class App extends Application {
             Iterator<Card> it = GameManager.currentGame.getPlayer(i).handBegin();
             int k=0;
             //Draw playe info
-            Text text = new Text("Cartas de " + GameManager.currentGame.getPlayer(i).getName());
+            Player p =  GameManager.currentGame.getPlayer(i);
+            String info = "____________________\n";
+            info += "Cartas de " + p.getName() + "\n";
+            if(p.getCurrentGuess() != -1 )
+                info += "Prediccion de esta ronda: " +  p.getCurrentGuess() + "\n";
+            else
+                info += "Prediccion de esta ronda: -/- \n";
+            info += "Trucos ganados esta ronda: " + p.getCurrentRoundWins() + "\n";
+            info += "Puntuación acumulada: " + p.getScore() + "\n";
+            Text text = new Text(info);
             root.getChildren().add(text);
             text.setTranslateX(10);
-            text.setTranslateY(50 + i*(cardHeight*cardScale));
+            text.setTranslateY( 20 + i*(cardHeight*cardScale));
             text.setFont(Font.font(15));
             text.setFill(Color.WHITE);
             
             //Draw player cards
             while(it.hasNext()){
-                drawCard(it.next(),root, 150 + k*(cardWidth*cardScale), i*(cardHeight*cardScale), cardScale);
+                drawCard(it.next(),root, 200 + k*(cardWidth*cardScale), i*(cardHeight*cardScale), cardScale);
                 k++;
             }
         }
@@ -155,7 +164,7 @@ public class App extends Application {
         }else{
             winCard = new RegularCard(winnerFigure, 0);
         }
-        Text winCardText = new Text("Palo de triunfo");
+        Text winCardText = new Text("Palo de triunfo         Palo lider");
         drawCard(winCard, root, 0, (GameManager.currentGame.getNumberOfPlayers()+1)*(cardHeight*cardScale), cardScale );
         winCardText.setTranslateX(10);;
         winCardText.setTranslateY((GameManager.currentGame.getNumberOfPlayers()+1)*(cardHeight*cardScale)-10);
@@ -173,6 +182,7 @@ public class App extends Application {
         }
         drawCard(leadCard, root, cardScale*cardWidth + 50 , (GameManager.currentGame.getNumberOfPlayers()+1)*(cardHeight*cardScale), cardScale );
         
+
         //Update Window
         scene = new Scene(root, Color.BLACK);
         mainWindow.setScene(scene);
@@ -194,7 +204,7 @@ public class App extends Application {
         Optional<String> result = textInputDialog.showAndWait();
         if(result.isPresent() ){
             String resultMayus = result.get().toUpperCase();
-            if(resultMayus.equals("TERMINAR")){
+            if(resultMayus.equals("TERMINAR")){//Ends current game if user introduces TERMINAR
                 terminar();
                 return "";
             }

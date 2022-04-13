@@ -13,8 +13,9 @@ class Player {
     public Player( String name, int id ){
         this.name = name;
         score = 0;
-        currentGuess = 0;
+        currentGuess = -1;
         hand = new SimpleLinkedList<>();
+        playerId = id;
     }
     
     /**
@@ -38,6 +39,7 @@ class Player {
             }
         }
         currentGuess = a;
+        App.drawEverything();
     }
 
     /**
@@ -56,8 +58,12 @@ class Player {
             App.showMessageToUser("No", "El jugador no tiene esa carta en su mano");
             return false;
         }
-           
         
+        //If card is a Wizard or a DumbCard then player can play it
+        if(c instanceof WizardCard || c instanceof DumbCard){
+            return true;
+        }
+
         //if leaderFigure is invalid(no leader figure yet) return true
         if(leaderFigure<= 0 || leaderFigure >4)
             return true;
@@ -165,6 +171,22 @@ class Player {
      */
     public int getScore(){
         return score;
+    }
+
+    /**
+     * Set the number of trick wins
+     * @param r
+     */
+    public void setRoundWins(int r){
+        currentRoundWins =r;
+    }
+
+    public void increaseScore(int n){
+        score +=n;
+    }
+
+    public void resetGuess(){
+        currentGuess = -1;
     }
 
 }

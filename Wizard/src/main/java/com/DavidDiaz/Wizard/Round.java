@@ -22,16 +22,13 @@ class Round {
         shufflePlayer = (GameManager.lastPlayerWhoSuffled +1) % GameManager.currentGame.getNumberOfPlayers();
         GameManager.lastPlayerWhoSuffled = shufflePlayer;
         shuffleDeck();
+        leaderFigure = 0;
         App.showMessageToUser( "Se barajeo el mazo ", "El jugador : " + GameManager.currentGame.getPlayer(shufflePlayer).getName() + " barajó el mazo.");
         distributeCards();
+        App.drawEverything();
         setWinnerFigure();
-        if(winnerFigure != 0)
-            App.showMessageToUser("Palo de triunfo seleccionado", "El palo de triunfo es: " + RegularCard.getFigureName(winnerFigure) );
-        else
-            App.showMessageToUser("Palo de triunfo", "En esta ronda NO hay palo de triunfo.");
         App.drawEverything();
         setGuesses();
-        leaderFigure = 0;
     }
 
     /**
@@ -81,27 +78,32 @@ class Round {
     void setWinnerFigure(){
         if(deck.isEmpty()){
             winnerFigure = 0;
+            App.showMessageToUser("Estableciendo el palo de triunfo", "No quedan cartas en el deck, por lo tanto NO hay palo de triunfo esta ronda.");
             return;
         }
         Card c = deck.top();
         if( c instanceof RegularCard){
             RegularCard rc = (RegularCard)c;
             winnerFigure = rc.getFigure();
+            App.showMessageToUser("Estableciendo el palo de triunfo.", "La siguiente carta en el deck es: " + RegularCard.getFigureName(winnerFigure) 
+            + " por lo tanto " + RegularCard.getFigureName(winnerFigure) + " es el palo de triunfo" );
             return;
         }
         if(c instanceof WizardCard){
             String playerName = GameManager.currentGame.getPlayer(shufflePlayer).getName();
             String format = "Introduce una de las siguientes letras";
             format += "\n P para elegir Peach \n M para elegir Mario \n T para elegir Toad \n B para elegir Bowser";
-            String input = App.askForUserInput("El jugador:  " + playerName + " debe elegir el palo de triunfo.", format, "P");
+            App.showMessageToUser("Estableciendo el palo de triunfo.", "La siguiente carta en el deck es un mago.El jugador:  " + playerName + " debe elegir el palo de triunfo.");
+            String input = App.askForUserInput("Establece el palo de triunfo" , format, "P");
             while( ! ( input.equals("P") || input.equals("T") || input.equals("M") || input.equals("B") ) ){
                 App.showMessageToUser("Formato inválido", "Por favor introduce una de las letras especificadas");
-                input = App.askForUserInput("El jugador:  " + playerName + " debe elegir el palo de triunfo.", format, "P");
+                input = App.askForUserInput("Establece el palo de triunfo", format, "P");
             }
             winnerFigure = RegularCard.getFigureNumber(input);
             return;
         }
         if(c instanceof DumbCard){
+            App.showMessageToUser("Estableciendo el palo de triunfo.", "La siguiente carta en el deck es un bufon. No hay palo de triunfo esta ronda");
             winnerFigure = 0;
             return;
         }
@@ -125,8 +127,9 @@ class Round {
         String format = "Introduce la carta a jugar";
         String defaultValue = "";
         boolean leaderFigureIsSet = false;
-        leaderFigure = 0;//At the beggining of the round there's no leaderFigure
-
+        leaderFigure = 0;//At the beggining of the trick there's no leaderFigure
+        App.drawEverything();
+        
         //Set starter player for current trick;
         if(currentTrick == 1){
             starterPlayer = (shufflePlayer+1) % numberOfPlayers;
@@ -155,7 +158,7 @@ class Round {
             }
         }
         currentTrick++;
-
     }
+
 
 }

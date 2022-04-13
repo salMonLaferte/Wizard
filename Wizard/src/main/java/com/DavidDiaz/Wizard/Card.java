@@ -24,7 +24,7 @@ abstract class Card {
      */
     public static Card StrToCard(String s){
         
-        if(s.length() == 0)
+        if(s.length() == 0 )
             return null;
         String figure = s.substring(0, 1);
         if( !( figure.equals("T") || figure.equals("P") || figure.equals("M") || figure.equals("B") || figure.equals("W") || figure.equals( "S") ) ){

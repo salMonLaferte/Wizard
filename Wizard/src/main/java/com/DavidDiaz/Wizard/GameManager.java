@@ -9,6 +9,10 @@ class GameManager {
     static SimpleLinkedList<MyPair<Player, Card>> cardsPlayed;
     static int lastPlayerWhoSuffled = -1;
 
+    /**
+     * Set a new game with the specified number of players and starts the main loop
+     * @param numberOfPlayers
+     */
     static void StartAGame(int numberOfPlayers){
         currentGame = new Game(numberOfPlayers);
         cardsPlayed = new SimpleLinkedList<MyPair<Player, Card>>();
@@ -21,6 +25,9 @@ class GameManager {
         currentRound.roundStart();
     }
 
+    /**
+     * Loop which control the whole game
+     */
     static void mainLoop(){
         int roundNo = 1;
         while(roundNo <= currentGame.getNumberOfRounds()){
@@ -30,6 +37,10 @@ class GameManager {
                 Player winnerOfTrick = getTrickWinner(currentRound.winnerFigure, currentRound.leaderFigure);
                 currentRound.lastWinner = winnerOfTrick.getPlayerId();
             }
+            String scoreChange = increasePlayerScores();
+            App.showMessageToUser("Ronda: " + roundNo +  " finalizada. ", "Resultados \n" + scoreChange);
+            resetPlayerTrickWins();
+            App.drawEverything();
             roundNo++;
         }
     }
@@ -121,5 +132,33 @@ class GameManager {
         App.drawEverything();
     }
 
+    /**
+     * Increase players scores, only call this function at the end of a round
+     */
+    static String increasePlayerScores(){
+        String details = "";
+        for(int i=0; i<currentGame.getNumberOfPlayers(); i++){
+            Player p = currentGame.getPlayer(i);
+            details += p.getName() + ":  " + p.getScore() + "  -->  ";
+            if(p.getCurrentRoundWins() == p.getCurrentGuess()){
+                p.increaseScore(20 + 10 * p.getCurrentRoundWins());
+            }
+            else{
+                p.increaseScore(-10 * Math.abs(p.getCurrentGuess() - p.getCurrentRoundWins()) );
+            }
+            details += p.getScore() + "\n";
+        }
+        return details;
+    }
+
+     /**
+     * Reset the trick wins of the players
+     */
+    static void resetPlayerTrickWins(){
+        for(int i=0; i<currentGame.getNumberOfPlayers(); i++){
+            currentGame.getPlayer(i).setRoundWins(0);
+            currentGame.getPlayer(i).resetGuess();
+        }
+    }
 
 }
