@@ -13,8 +13,8 @@ class GameManager {
      * Set a new game with the specified number of players and starts the main loop
      * @param numberOfPlayers
      */
-    static void StartAGame(int numberOfPlayers){
-        currentGame = new Game(numberOfPlayers);
+    static void StartAGame(int numberOfPlayers, String[] playersNames){
+        currentGame = new Game(numberOfPlayers, playersNames);
         cardsPlayed = new SimpleLinkedList<MyPair<Player, Card>>();
         mainLoop();
     }
@@ -43,6 +43,7 @@ class GameManager {
             App.drawEverything();
             roundNo++;
         }
+        App.terminar();
     }
 
 

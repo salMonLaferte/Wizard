@@ -44,9 +44,28 @@ public class App extends Application {
         mainWindow.setWidth(1600);
         mainWindow.setHeight(900);
         mainWindow.show();
+        
+        //Ask for how many players are playing
+        boolean playersNumSet = false;
+        int numPlayers = -1;
+        while(!playersNumSet){
+            String jugadores = askForUserInput("Introduce el numero de jugadores.", "Introduce un numero del 3 al 6", "3");
+            playersNumSet = true;
+            try{
+                numPlayers = Integer.parseInt(jugadores);
+            }
+            catch(Exception e){
+                playersNumSet = false;
+            }
+        }
+        //Ask for players names
+        String[] playersNames = new String[numPlayers];
+        for(int i=0; i<numPlayers; i++){
+            playersNames[i] = askForUserInput("Nombre del jugador,", "Introduce el nombre del jugador:" + (i+1), "Jugador " + (i+1));
+        }
 
         //Set Game
-        GameManager.StartAGame(3);
+        GameManager.StartAGame(numPlayers, playersNames);
     }
 
     /**
@@ -182,6 +201,15 @@ public class App extends Application {
         }
         drawCard(leadCard, root, cardScale*cardWidth + 50 , (GameManager.currentGame.getNumberOfPlayers()+1)*(cardHeight*cardScale), cardScale );
         
+        //Draw round info
+        String roundInfo = "Ronda: " + GameManager.currentRound.numberOfRound;
+        roundInfo += "\nTruco: " + GameManager.currentRound.currentTrick;
+        Text currentRoundAndTrick = new Text(roundInfo);
+        currentRoundAndTrick.setFill(Color.WHITE);
+        currentRoundAndTrick.setFont(Font.font(25));
+        currentRoundAndTrick.setTranslateX(4*(cardWidth*cardScale) + GameManager.currentGame.getNumberOfPlayers()*(cardWidth*cardScale) + 200 );
+        currentRoundAndTrick.setTranslateY((GameManager.currentGame.getNumberOfPlayers()+1)*(cardHeight*cardScale));
+        root.getChildren().add(currentRoundAndTrick);
 
         //Update Window
         scene = new Scene(root, Color.BLACK);
@@ -229,6 +257,29 @@ public class App extends Application {
     }
     
     public static void terminar(){
+        String resultados = "";
+        int maxScore = GameManager.currentGame.getPlayer(0).getScore();
+        for(int i=0; i<GameManager.currentGame.getNumberOfPlayers(); i++){
+            String name = GameManager.currentGame.getPlayer(i).getName();
+            int score =  GameManager.currentGame.getPlayer(i).getScore();
+            if(score > maxScore)
+                maxScore = score;
+            resultados += name;
+            resultados += " obtuvo una puntuación de: " + score;
+            resultados += "\n";
+        }
+        SimpleLinkedList<String> winners = new SimpleLinkedList<String>();
+        for(int i=0; i<GameManager.currentGame.getNumberOfPlayers(); i++){
+            if(GameManager.currentGame.getPlayer(i).getScore() == maxScore){
+                winners.add(GameManager.currentGame.getPlayer(i).getName());
+            }
+        }
+        resultados += "El ganador es:\n ";
+        Iterator<String> it = winners.begin();
+        while(it.hasNext()){
+            resultados += it.next() + " | ";
+        }
+        showMessageToUser("Partida finalizada", resultados);
         System.exit(0);
     }
     

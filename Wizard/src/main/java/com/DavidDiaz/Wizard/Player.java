@@ -71,7 +71,7 @@ class Player {
         //If player has a card of the leaderFigure it hast to play one of those cards
         String leaderFigStr = RegularCard.getFigureStr(leaderFigure);
         if( !c.getFigureStr().equals(leaderFigStr) && handContainsFigure(leaderFigStr)){
-            App.showMessageToUser("No", "El jugador tiene una carta del palo lider y debe jugarlo");
+            App.showMessageToUser("No", "El jugador tiene una carta del palo lider y debe jugarlo (o jugar una carta especial)");
             return false;
         }
 

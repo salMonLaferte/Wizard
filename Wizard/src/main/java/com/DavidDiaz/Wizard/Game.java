@@ -5,11 +5,11 @@ class Game {
     private Player[] players;
     private int rounds;
 
-    public Game(int numberOfPlayers){
+    public Game(int numberOfPlayers, String[] playersNames){
         this.numberOfPlayers = numberOfPlayers;
         players = new Player[numberOfPlayers];
         for(int i=0; i<numberOfPlayers; i++){
-            players[i] = new Player( "Jugador  " + (i+1), i);
+            players[i] = new Player( playersNames[i], i);
         }
         rounds = 60/numberOfPlayers;
     }
