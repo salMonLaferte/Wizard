@@ -26,7 +26,7 @@ public class App extends Application {
     static Stage mainWindow;
     static int cardWidth = 100;
     static int cardHeight = 150;
-    static float  cardScale =.7f;
+    static float  cardScale =.62f;
     
     public static void main(String args[]){
         launch();
