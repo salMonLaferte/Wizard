@@ -1,6 +1,6 @@
 package com.DavidDiaz.Wizard;
 
-public class NullCard extends Card{
+class NullCard extends Card{
 
     @Override
     public String getImage() {

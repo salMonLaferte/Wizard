@@ -7,6 +7,7 @@ class GameManager {
     static Round currentRound;
     static Game currentGame;
     static SimpleLinkedList<MyPair<Player, Card>> cardsPlayed;
+    static SimpleLinkedList<RoundData> roundData;
     static int lastPlayerWhoSuffled = -1;
 
     /**
@@ -16,6 +17,7 @@ class GameManager {
     static void StartAGame(int numberOfPlayers, String[] playersNames){
         currentGame = new Game(numberOfPlayers, playersNames);
         cardsPlayed = new SimpleLinkedList<MyPair<Player, Card>>();
+        roundData = new SimpleLinkedList<RoundData>();
         mainLoop();
     }
 

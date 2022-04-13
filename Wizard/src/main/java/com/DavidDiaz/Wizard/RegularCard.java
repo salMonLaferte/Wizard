@@ -92,8 +92,9 @@ class RegularCard extends Card {
             return "Mario";
             case 4:
             return "Bowser";
+            default:
+            return "Ninguno";
         }
-        return "";
     }
 
 }

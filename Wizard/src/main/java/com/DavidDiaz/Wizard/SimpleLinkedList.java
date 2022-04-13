@@ -145,7 +145,11 @@ public class SimpleLinkedList<T> {
         return false;
     }
 
-    
+    /**
+     * Returns data at index and deletes the element
+     * @param index
+     * @return
+     */
     public T getAndDeleteAtIndex(int index){
         if(index < 0 || index >= size )
             return null;
@@ -169,5 +173,16 @@ public class SimpleLinkedList<T> {
             tail = current;
         size--;
         return current.data;
+    }
+
+    @Override
+    public String toString(){
+        String result = "";
+        Node current = head;
+        while(current != null){
+            result += current.data.toString();
+            current = current.next;
+        }
+        return result;
     }
 }
