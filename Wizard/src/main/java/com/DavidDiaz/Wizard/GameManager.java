@@ -7,7 +7,7 @@ class GameManager {
     static Round currentRound;
     static Game currentGame;
     static SimpleLinkedList<MyPair<Player, Card>> cardsPlayed;
-    static int lastPlayerWhoSuffled = 0;
+    static int lastPlayerWhoSuffled = -1;
 
     static void StartAGame(int numberOfPlayers){
         currentGame = new Game(numberOfPlayers);
@@ -16,7 +16,7 @@ class GameManager {
     }
 
     static void StartNextRound(int numberOfRound){
-        App.showMessageToUser("Es hora de la ronda: " + numberOfRound,"");
+        App.showMessageToUser("Ronda: " + numberOfRound, "Comezará la ronda número: " + numberOfRound);
         currentRound = new Round(numberOfRound);
         currentRound.roundStart();
     }
@@ -35,7 +35,6 @@ class GameManager {
     }
 
 
-
     static Player getTrickWinner(int winnerFigure, int leaderFigure){
         Iterator<MyPair<Player, Card>> it = cardsPlayed.begin();
 
@@ -43,7 +42,7 @@ class GameManager {
         while(it.hasNext()){
             MyPair<Player, Card> pair = it.next();
             if(pair.second instanceof WizardCard){
-                giveVictoryToPlayer(pair.first, " debido a que jugó un mago.");
+                giveVictoryToPlayer(pair.first, " debido a que jugó un mago primero.");
                 return pair.first;
             }
         }
@@ -53,7 +52,7 @@ class GameManager {
         if(winnerFigure != 0){
             playerWhoPlayedMax = lookForHighestOfFigure(winnerFigure);
             if(playerWhoPlayedMax != null){
-                giveVictoryToPlayer(playerWhoPlayedMax, " debido a que jugó el palo de triunfo más alto ");
+                giveVictoryToPlayer(playerWhoPlayedMax, " debido a que jugó el palo de triunfo más alto. ");
                 return playerWhoPlayedMax;
             }
         }
@@ -62,7 +61,7 @@ class GameManager {
         if(leaderFigure !=0){
             playerWhoPlayedMax = lookForHighestOfFigure(leaderFigure);
             if(playerWhoPlayedMax != null){
-                giveVictoryToPlayer(playerWhoPlayedMax, " debido a que jugó el palo lider más alto ");
+                giveVictoryToPlayer(playerWhoPlayedMax, " debido a que jugó el palo lider más alto. ");
                 return playerWhoPlayedMax;
             }
         }
@@ -73,7 +72,7 @@ class GameManager {
         while(it.hasNext()){
             MyPair<Player, Card> pair = it.next();
             if(pair.second instanceof DumbCard){
-                giveVictoryToPlayer(pair.first, " debido a que jugó un buffón primero ");
+                giveVictoryToPlayer(pair.first, " debido a que jugó un buffón primero. ");
                 return pair.first;
             }
         }

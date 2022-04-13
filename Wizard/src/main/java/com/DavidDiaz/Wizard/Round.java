@@ -22,12 +22,16 @@ class Round {
         shufflePlayer = (GameManager.lastPlayerWhoSuffled +1) % GameManager.currentGame.getNumberOfPlayers();
         GameManager.lastPlayerWhoSuffled = shufflePlayer;
         shuffleDeck();
+        App.showMessageToUser( "Se barajeo el mazo ", "El jugador : " + GameManager.currentGame.getPlayer(shufflePlayer).getName() + " barajó el mazo.");
         distributeCards();
         setWinnerFigure();
-        App.showMessageToUser("Palo de triunfo seleccionado", "El palo de triunfo es: " + RegularCard.getFigureName(winnerFigure) );
+        if(winnerFigure != 0)
+            App.showMessageToUser("Palo de triunfo seleccionado", "El palo de triunfo es: " + RegularCard.getFigureName(winnerFigure) );
+        else
+            App.showMessageToUser("Palo de triunfo", "En esta ronda NO hay palo de triunfo.");
+        App.drawEverything();
         setGuesses();
         leaderFigure = 0;
-        App.drawEverything();
     }
 
     /**
@@ -125,7 +129,7 @@ class Round {
 
         //Set starter player for current trick;
         if(currentTrick == 1){
-            starterPlayer = (shufflePlayer + 1) % numberOfPlayers;
+            starterPlayer = (shufflePlayer+1) % numberOfPlayers;
         }else
             starterPlayer = lastWinner;
 
@@ -135,7 +139,6 @@ class Round {
             String message = "Es turno del jugador " + currentPlayer.getName();            
             String playedCard = App.askForUserInput(message, format, defaultValue );
             while( !currentPlayer.validateCard(playedCard, leaderFigure)){
-                App.showMessageToUser("Error", "La carta que introdujiste no es válida");
                 playedCard = App.askForUserInput(message, format, defaultValue );
             }
             currentPlayer.playCard(playedCard);
@@ -147,6 +150,7 @@ class Round {
                     RegularCard rc = (RegularCard)c;
                     leaderFigure = rc.getFigure();
                     leaderFigureIsSet = true;
+                    App.drawEverything();
                 }
             }
         }

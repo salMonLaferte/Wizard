@@ -27,9 +27,14 @@ class Player {
         String defaultValue = "1";
         while( a < 0 || a > GameManager.currentRound.numberOfRound){
             String input = App.askForUserInput(question, format, defaultValue);
-            a = Integer.parseInt(input);
-            if( a < 0 || a > GameManager.currentRound.numberOfRound){
-                System.out.println("Invalid Guess for " + name);
+            boolean invalidFormat = false;
+            try{
+                a = Integer.parseInt(input);
+            }catch(Exception e){
+                invalidFormat = true;
+            }
+            if( invalidFormat || a < 0 || a > GameManager.currentRound.numberOfRound){
+                App.showMessageToUser("Introduce un valor válido", "Por favor, Introduce un numero del " + 0 + " al " + GameManager.currentRound.numberOfRound);
             }
         }
         currentGuess = a;

@@ -68,7 +68,10 @@ public class App extends Application {
                 number = "S";
             else
                 number = "W";
-        }else{
+        }else if(card instanceof NullCard){
+            number = "";
+        }
+        else{
             RegularCard c = (RegularCard)card;
             number = "" + c.getNumber();
         }
@@ -141,9 +144,35 @@ public class App extends Application {
 
         //Add played Cards to the root and translate
         root.getChildren().add(playedCards);
-        playedCards.setTranslateX(3*(cardWidth*cardScale));
+        playedCards.setTranslateX(4*(cardWidth*cardScale));
         playedCards.setTranslateY((GameManager.currentGame.getNumberOfPlayers()+1)*(cardHeight*cardScale));
 
+        //Draw WinnerFigure and leaderFigure
+        int winnerFigure = GameManager.currentRound.winnerFigure;
+        Card winCard;
+        if(winnerFigure == 0){
+            winCard = new NullCard();
+        }else{
+            winCard = new RegularCard(winnerFigure, 0);
+        }
+        Text winCardText = new Text("Palo de triunfo");
+        drawCard(winCard, root, 0, (GameManager.currentGame.getNumberOfPlayers()+1)*(cardHeight*cardScale), cardScale );
+        winCardText.setTranslateX(10);;
+        winCardText.setTranslateY((GameManager.currentGame.getNumberOfPlayers()+1)*(cardHeight*cardScale)-10);
+        winCardText.setFill(Color.WHITE);
+        winCardText.setFont(Font.font(15));
+        root.getChildren().add(winCardText);
+
+        //Draw leaderFigure
+        int leaderFigure = GameManager.currentRound.leaderFigure;
+        Card leadCard;
+         if(leaderFigure == 0){
+            leadCard = new NullCard();
+        }else{
+            leadCard = new RegularCard(leaderFigure, 0);
+        }
+        drawCard(leadCard, root, cardScale*cardWidth + 50 , (GameManager.currentGame.getNumberOfPlayers()+1)*(cardHeight*cardScale), cardScale );
+        
         //Update Window
         scene = new Scene(root, Color.BLACK);
         mainWindow.setScene(scene);
@@ -163,10 +192,17 @@ public class App extends Application {
         textInputDialog.setHeaderText(question);
         textInputDialog.setContentText(formatDescription);
         Optional<String> result = textInputDialog.showAndWait();
-        if(result.isPresent()){
-            return result.get();
+        if(result.isPresent() ){
+            String resultMayus = result.get().toUpperCase();
+            if(resultMayus.equals("TERMINAR")){
+                terminar();
+                return "";
+            }
+            else
+                return resultMayus;
         }
-        else return "";
+        else 
+            return "";
     }
 
     /**
@@ -180,6 +216,10 @@ public class App extends Application {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    
+    public static void terminar(){
+        System.exit(0);
     }
     
 }
