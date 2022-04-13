@@ -24,9 +24,9 @@ class Player {
     public void setGuess(){
         int a = -1;
         String question = "Introduce una prediccion para:  " + name;
-        String format = "Introduce un numero del " + 0 + " al " + GameManager.currentRound.numberOfRound;
+        String format = "Introduce un numero del " + 0 + " al " + GameManager.currentRound.getNumberOfRound();
         String defaultValue = "1";
-        while( a < 0 || a > GameManager.currentRound.numberOfRound){
+        while( a < 0 || a > GameManager.currentRound.getNumberOfRound()){
             String input = App.askForUserInput(question, format, defaultValue);
             boolean invalidFormat = false;
             try{
@@ -34,8 +34,8 @@ class Player {
             }catch(Exception e){
                 invalidFormat = true;
             }
-            if( invalidFormat || a < 0 || a > GameManager.currentRound.numberOfRound){
-                App.showMessageToUser("Introduce un valor válido", "Por favor, Introduce un numero del " + 0 + " al " + GameManager.currentRound.numberOfRound);
+            if( invalidFormat || a < 0 || a > GameManager.currentRound.getNumberOfRound()){
+                App.showMessageToUser("Introduce un valor válido", "Por favor, Introduce un numero del " + 0 + " al " + GameManager.currentRound.getNumberOfRound());
             }
         }
         currentGuess = a;

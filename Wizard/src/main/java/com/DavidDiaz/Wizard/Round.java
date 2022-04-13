@@ -3,13 +3,13 @@ package com.DavidDiaz.Wizard;
 import java.util.Random;
 
 class Round {
-    int winnerFigure;
-    int leaderFigure;
-    int shufflePlayer;
-    int numberOfRound;
-    int currentTrick;
-    int lastWinner;
-    Stack<Card> deck;
+    private int winnerFigure;
+    private int leaderFigure;
+    private int shufflePlayer;
+    private int numberOfRound;
+    private int currentTrick;
+    private int lastWinner;
+    private Stack<Card> deck;
 
     public Round(int number){
         deck = new Stack<Card>();
@@ -160,5 +160,24 @@ class Round {
         currentTrick++;
     }
 
+    public int getWinnerFigure(){
+        return winnerFigure;
+    }
+
+    public int getLeaderFigure(){
+        return leaderFigure;
+    }
+
+    public int getNumberOfRound(){
+        return numberOfRound;
+    }
+
+    public int getCurrentTrick(){
+        return currentTrick;
+    }
+
+    public void setLastWinner(int lw){
+        lastWinner  = lw;
+    }
 
 }

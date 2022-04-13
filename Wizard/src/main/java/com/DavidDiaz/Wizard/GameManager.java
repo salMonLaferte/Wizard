@@ -32,10 +32,10 @@ class GameManager {
         int roundNo = 1;
         while(roundNo <= currentGame.getNumberOfRounds()){
             StartNextRound(roundNo);
-            while(currentRound.currentTrick <= roundNo){
+            while(currentRound.getCurrentTrick() <= roundNo){
                 currentRound.nextTrick();
-                Player winnerOfTrick = getTrickWinner(currentRound.winnerFigure, currentRound.leaderFigure);
-                currentRound.lastWinner = winnerOfTrick.getPlayerId();
+                Player winnerOfTrick = getTrickWinner(currentRound.getWinnerFigure(), currentRound.getLeaderFigure());
+                currentRound.setLastWinner( winnerOfTrick.getPlayerId() ) ;
             }
             String scoreChange = increasePlayerScores();
             App.showMessageToUser("Ronda: " + roundNo +  " finalizada. ", "Resultados \n" + scoreChange);

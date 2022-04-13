@@ -176,7 +176,7 @@ public class App extends Application {
         playedCards.setTranslateY((GameManager.currentGame.getNumberOfPlayers()+1)*(cardHeight*cardScale));
 
         //Draw WinnerFigure and leaderFigure
-        int winnerFigure = GameManager.currentRound.winnerFigure;
+        int winnerFigure = GameManager.currentRound.getWinnerFigure();
         Card winCard;
         if(winnerFigure == 0){
             winCard = new NullCard();
@@ -192,7 +192,7 @@ public class App extends Application {
         root.getChildren().add(winCardText);
 
         //Draw leaderFigure
-        int leaderFigure = GameManager.currentRound.leaderFigure;
+        int leaderFigure = GameManager.currentRound.getLeaderFigure();
         Card leadCard;
          if(leaderFigure == 0){
             leadCard = new NullCard();
@@ -202,8 +202,8 @@ public class App extends Application {
         drawCard(leadCard, root, cardScale*cardWidth + 50 , (GameManager.currentGame.getNumberOfPlayers()+1)*(cardHeight*cardScale), cardScale );
         
         //Draw round info
-        String roundInfo = "Ronda: " + GameManager.currentRound.numberOfRound;
-        roundInfo += "\nTruco: " + GameManager.currentRound.currentTrick;
+        String roundInfo = "Ronda: " + GameManager.currentRound.getNumberOfRound();
+        roundInfo += "\nTruco: " + GameManager.currentRound.getCurrentTrick();
         Text currentRoundAndTrick = new Text(roundInfo);
         currentRoundAndTrick.setFill(Color.WHITE);
         currentRoundAndTrick.setFont(Font.font(25));
