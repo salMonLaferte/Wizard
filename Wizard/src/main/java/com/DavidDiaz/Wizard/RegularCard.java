@@ -1,5 +1,8 @@
 package com.DavidDiaz.Wizard;
 
+/**
+ * Abstract representation of a card with a figure and a number
+ */
 class RegularCard extends Card {
     
     private int figure;
@@ -47,14 +50,27 @@ class RegularCard extends Card {
         return "";
     }
 
+    /**
+     * Returns figure of the card
+     * @return
+     */
     public int getFigure(){
         return figure;
     }
 
+    /**
+     * Returns number of the card
+     * @return
+     */
     public int getNumber(){
         return number;
     }
-    
+
+    /**
+     * Get the number of the figure given the string representation of the figure
+     * @param s
+     * @return
+     */
     public static int getFigureNumber(String s){
         switch(s){
             case "P":
@@ -69,6 +85,11 @@ class RegularCard extends Card {
         return 0;
     }
 
+    /**
+     * Get the string representation of the figure
+     * @param f figure
+     * @return
+     */
     public static String getFigureStr(int f) {        
         switch(f){
             case 1:
@@ -83,6 +104,11 @@ class RegularCard extends Card {
         return "";
     }
 
+    /**
+     * Get the name of the figure
+     * @param f figure
+     * @return
+     */
     public static String getFigureName(int f){
           switch(f){
             case 1:

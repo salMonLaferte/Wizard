@@ -2,7 +2,9 @@ package com.DavidDiaz.Wizard;
 
 
 import java.util.Iterator;
-
+/**
+ * Class to create an manage  a game, handles switching betwen rounds and tricks, keeps record of the history of a game
+ */
 class GameManager {
     static Round currentRound;
     static Game currentGame;

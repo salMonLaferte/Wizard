@@ -1,5 +1,7 @@
 package com.DavidDiaz.Wizard;
-
+/**
+ * Class to keep the data of a round
+ */
 class RoundData {
     private int numberOfRound;
     private SimpleLinkedList<TrickData> tricks;

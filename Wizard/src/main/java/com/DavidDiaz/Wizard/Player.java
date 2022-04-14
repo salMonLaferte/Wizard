@@ -2,6 +2,9 @@ package com.DavidDiaz.Wizard;
 
 import java.util.Iterator;
 
+/**
+ * Representation of a player and his stats which are continuosly changging 
+ */
 class Player {
     private String name;
     private int score;

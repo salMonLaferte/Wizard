@@ -1,5 +1,7 @@
 package com.DavidDiaz.Wizard;
-
+/**
+ * Representation of the bufon card
+ */
 class DumbCard extends Card{
 
     @Override

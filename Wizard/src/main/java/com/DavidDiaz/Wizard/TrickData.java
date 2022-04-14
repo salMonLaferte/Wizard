@@ -1,6 +1,8 @@
 package com.DavidDiaz.Wizard;
 
-
+/**
+ * Class to keep the data from a Trick
+ */
 class TrickData {
     private int leaderFigure;
     private int numberOfTrick;

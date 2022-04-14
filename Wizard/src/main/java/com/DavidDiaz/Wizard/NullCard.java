@@ -1,5 +1,7 @@
 package com.DavidDiaz.Wizard;
-
+/**
+ * Abstract representation of a inexistent card
+ */
 class NullCard extends Card{
 
     @Override

@@ -2,6 +2,9 @@ package com.DavidDiaz.Wizard;
 
 import java.util.Random;
 
+/**
+ * Abstract representation of a round, manages everytrick and play turns
+ */
 class Round {
     private int winnerFigure;
     private int leaderFigure;
@@ -17,7 +20,9 @@ class Round {
         currentTrick = 1;
     }
 
-    //Round Initialization
+    /**
+     * Prepare everything to start the round
+     */
     public void roundStart(){
         shufflePlayer = (GameManager.lastPlayerWhoSuffled +1) % GameManager.currentGame.getNumberOfPlayers();
         GameManager.lastPlayerWhoSuffled = shufflePlayer;

@@ -1,5 +1,7 @@
 package com.DavidDiaz.Wizard;
-
+/**
+ * Class with the info of one Game
+ */
 class Game {
     private int numberOfPlayers;
     private Player[] players;

@@ -1,5 +1,7 @@
 package com.DavidDiaz.Wizard;
-
+/**
+ * Abstract representation of a card
+ */
 abstract class Card {
     /**
      * Get route of the image for this card

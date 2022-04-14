@@ -1,5 +1,7 @@
 package com.DavidDiaz.Wizard;
-
+/**
+ * Abstract representation od a Wizard Card
+ */
 class WizardCard extends Card{
 
     @Override
