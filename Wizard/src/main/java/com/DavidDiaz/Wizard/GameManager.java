@@ -38,24 +38,24 @@ class GameManager {
      */
     static void mainLoop(){
         int roundNo = 1;
-        while(roundNo <= currentGame.getNumberOfRounds()){
-            StartNextRound(roundNo);
-            currentRoundData.setWinnerFigure(currentRound.getWinnerFigure());
-            while(currentRound.getCurrentTrick() <= roundNo){
-                TrickData data = new TrickData(currentRound.getCurrentTrick());
-                currentRound.nextTrick(data);
-                Player winnerOfTrick = getTrickWinner(currentRound.getWinnerFigure(), currentRound.getLeaderFigure());
-                data.setWinner(winnerOfTrick);
-                resetPlayedCards();
-                App.drawEverything();
-                currentRound.setLastWinner( winnerOfTrick.getPlayerId() ) ;
-                currentRoundData.addTrickData(data);
+        while(roundNo <= currentGame.getNumberOfRounds()){//Juega el numero de rondas calculado
+            StartNextRound(roundNo);//Comienza la ronda
+            currentRoundData.setWinnerFigure(currentRound.getWinnerFigure());//Guarda en la data el palo de triunfo
+            while(currentRound.getCurrentTrick() <= roundNo){//Ejecuta tantos trucos como rondas
+                TrickData data = new TrickData(currentRound.getCurrentTrick());//datos del truco actual para el historial
+                currentRound.nextTrick(data);//Ejecuta el siguiente truco
+                Player winnerOfTrick = getTrickWinner(currentRound.getWinnerFigure(), currentRound.getLeaderFigure());//Obten el ganador del truco
+                data.setWinner(winnerOfTrick);//Establece el ganador en los datos del truco actual
+                resetPlayedCards();//Vacia la lista de cartas que están en juego
+                App.drawEverything();//Dibuja los datos en pantalla
+                currentRound.setLastWinner( winnerOfTrick.getPlayerId() ) ;//Actualiza el ultimo jugador que gano
+                currentRoundData.addTrickData(data);//Agrega los datos del truco actual a los datos de la ronda actual
             }
             String scoreChange = increaseAndSavePlayerScores();
-            App.showMessageToUser("Ronda: " + roundNo +  " finalizada. ", "Resultados \n" + scoreChange);
+            App.showMessageToUser("Ronda: " + roundNo +  " finalizada. ", "Resultados \n" + scoreChange);//
             resetPlayerTrickWins();
             App.drawEverything();
-            roundData.add(currentRoundData);
+            roundData.add(currentRoundData);//agrega los datos de la ronda actual al historial
             roundNo++;
         }
         App.terminar();
